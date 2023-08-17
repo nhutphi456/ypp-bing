@@ -15,13 +15,11 @@ describe("test item component", () => {
   });
 
   it("should bind data into view", () => {
-    newsComponent.updateData({
+    const html = newsComponent.updateData({
       title: "Chelsea vs Arsenal",
       source: "bbc",
       like: 12,
     });
-
-    const html = newsController.updateView()
 
     expect(html).toBe("<di>bbc Chelsea vs Arsenal</di>")
   });

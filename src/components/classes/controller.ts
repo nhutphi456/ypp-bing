@@ -11,7 +11,7 @@ export class Controller<T> {
 
   bindData(data: T) {
     this.model.setData(data);
-    this.updateView();
+    return this.updateView();
   }
 
   updateView() {

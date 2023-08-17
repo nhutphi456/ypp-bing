@@ -1,14 +1,15 @@
 import { Controller } from "./controller";
 
-export class Component<T> {
+export class Component<T, U = T> {
   controller: Controller<T>;
-  children?: Component<any>[]
-  constructor(controller: Controller<T>, children?: Component<any>[]) {
+  children?: Component<U>[];
+  
+  constructor(controller: Controller<T>, children?: Component<U>[]) {
     this.controller = controller;
-    this.children = children
+    this.children = children;
   }
 
   updateData(data: T) {
-    this.controller.bindData(data);
+    return this.controller.bindData(data);
   }
 }

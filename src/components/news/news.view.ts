@@ -5,7 +5,6 @@ export class NewsView extends View<INews> {
     constructor(){
         super()
     }
-
     render(data: INews){
         return `<di>${data.source} ${data.title}</di>`
     }
