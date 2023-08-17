@@ -1,63 +1,59 @@
-import { Controller } from "../components/classes/controller";
-import { Model } from "../components/classes/model";
-import { View } from "../components/classes/view";
-import { INews } from "../components/model/news";
+import { Controller } from "../classes/controller";
+import { Model } from "../classes/model";
+import { View } from "../classes/view";
 
-describe("test item component", () => {
-  let news: Model<INews>,
-    newsView: View<INews>,
-    newsComponent: Controller<INews>;
+interface IItem {
+  name: string;
+}
+describe("test base classes", () => {
+  let item: Model<IItem>,
+    itemView: View<IItem>,
+    itemComponent: Controller<IItem>;
 
   beforeAll(() => {
-    const template = (data: INews) => `<div>${data.source} ${data.title}</div>`;
+    const template = (data: IItem) => `<div>${data.name}</div>`;
 
-    news = new Model();
-    newsView = new View(template);
-    newsComponent = new Controller(news, newsView);
+    item = new Model();
+    itemView = new View(template);
+    itemComponent = new Controller(item, itemView);
   });
 
   it("should bind data into view", () => {
-    const html = newsComponent.bindData({
-      title: "Chelsea vs Arsenal",
-      source: "bbc",
-      like: 12,
+    const html = itemComponent.bindData({
+      name: "Nike Shoes",
     });
 
-    expect(html).toBe("<div>bbc Chelsea vs Arsenal</div>");
+    expect(html).toBe("<div>Nike Shoes</div>");
   });
 });
 
 describe("test parent component", () => {
-  let listNews: Model<INews[]>,
-    listNewsView: View<INews[]>,
-    listNewsComponent: Controller<INews[]>;
+  let items: Model<IItem[]>,
+    itemsView: View<IItem[]>,
+    itemsComponent: Controller<IItem[]>;
 
   beforeAll(() => {
-    const template = (data: INews) => `<div>${data.source} ${data.title}</div>`;
-    const parentTemplate = (data: INews[]) =>
-      `<div><div>List News</div>${data.map((item) => template(item))}</div>`;
+    const template = (data: IItem) => `<div>${data.name}</div>`;
+    const parentTemplate = (data: IItem[]) =>
+      `<div><div>List Item</div>${data.map((item) => template(item))}</div>`;
 
-    listNews = new Model();
-    listNewsView = new View(parentTemplate);
-    listNewsComponent = new Controller(listNews, listNewsView);
+    items = new Model();
+    itemsView = new View(parentTemplate);
+    itemsComponent = new Controller(items, itemsView);
   });
 
-  it("should bind data into view", () => {
-    const listNews = [
+  it("should render child component", () => {
+    const items = [
       {
-        title: "Chelsea vs Arsenal",
-        source: "bbc",
-        like: 12,
+        name: "Nike Shoes",
       },
       {
-        title: "MU vs MC",
-        source: "cnn",
-        like: 20,
+        name: "Pants",
       },
     ];
 
-    const html = listNewsComponent.bindData(listNews);
-    expect(html).toContain("<div>bbc Chelsea vs Arsenal</div>");
-    expect(html).toContain("<div>cnn MU vs MC</div>");
+    const html = itemsComponent.bindData(items);
+    expect(html).toContain("<div>Nike Shoes</div>");
+    expect(html).toContain("<div>Pants</div>");
   });
 });
