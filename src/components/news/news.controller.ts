@@ -1,22 +1,9 @@
-import { News } from "./news.model";
+import { Controller } from "../classes/controller";
+import { INews, News } from "./news.model";
 import { NewsView } from "./news.view";
 
-export class NewsController {
-  private news: News;
-  private newsView: NewsView;
-
+export class NewsController extends Controller<INews> {
   constructor(news: News, newsView: NewsView) {
-    this.news = news;
-    this.newsView = newsView;
-  }
-
-  bindData() {
-    // this.news
-    const html = this.newsView.render(this.news);
-    return html;
-  }
-
-  updateView(){
-
+    super(news, newsView);
   }
 }

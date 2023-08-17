@@ -1,12 +1,9 @@
+import { Component } from "../classes/component";
 import { NewsController } from "./news.controller";
-import { News } from "./news.model";
+import { INews } from "./news.model";
 
-export class NewsComponent {
-    controller: NewsController
-
-    constructor(controller: NewsController){
-        this.controller = controller
-    }
-
-    
+export class NewsComponent  extends Component<INews> {
+  constructor(controller: NewsController){
+    super(controller)
+  }
 }
