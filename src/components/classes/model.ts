@@ -1,11 +1,10 @@
 export class Model<T> {
   private data: T;
-  constructor() {
-  }
+  constructor() {}
   getData() {
     return this.data;
   }
   setData(data: T) {
-    this.data = { ...this.data, ...data };
+    this.data = data;
   }
 }

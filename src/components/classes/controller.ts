@@ -4,9 +4,12 @@ import { View } from "./view";
 export class Controller<T> {
   view: View<T>;
   model: Model<T>;
-  constructor(model: Model<T>, view: View<T>) {
+  children: Controller<any>[];
+
+  constructor(model: Model<T>, view: View<T>, children?: Controller<any>[]) {
     this.view = view;
     this.model = model;
+    this.children = children ? children : [];
   }
 
   bindData(data: T) {
@@ -16,7 +19,10 @@ export class Controller<T> {
 
   updateView() {
     const data = this.model.getData();
-    const html = this.view.render(data);
+    let html = this.view.render(data);
+    this.children.forEach(child => {
+      child.updateView()
+    });
     return html;
   }
 }
