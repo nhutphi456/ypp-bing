@@ -1,7 +1,7 @@
 import { Controller } from "../components/classes/controller";
 import { Model } from "../components/classes/model";
 import { View } from "../components/classes/view";
-import { INews } from "../components/news/news.model";
+import { INews } from "../components/model/news";
 
 describe("test item component", () => {
   let news: Model<INews>,
