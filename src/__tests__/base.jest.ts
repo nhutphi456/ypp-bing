@@ -5,6 +5,7 @@ import { View } from "../classes/view";
 interface IItem {
   name: string;
 }
+
 describe("test base classes", () => {
   let item: Model<IItem>,
     itemView: View<IItem>,

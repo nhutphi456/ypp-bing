@@ -20,9 +20,6 @@ export class Controller<T> {
   updateView() {
     const data = this.model.getData();
     let html = this.view.render(data);
-    this.children.forEach(child => {
-      child.updateView()
-    });
     return html;
   }
 }
