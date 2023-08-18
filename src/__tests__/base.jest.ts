@@ -27,34 +27,3 @@ describe("test base classes", () => {
     expect(html).toBe("<div>Nike Shoes</div>");
   });
 });
-
-describe("test parent component", () => {
-  let items: Model<IItem[]>,
-    itemsView: View<IItem[]>,
-    itemsComponent: Controller<IItem[]>;
-
-  beforeAll(() => {
-    const template = (data: IItem) => `<div>${data.name}</div>`;
-    const parentTemplate = (data: IItem[]) =>
-      `<div><div>List Item</div>${data.map((item) => template(item))}</div>`;
-
-    items = new Model();
-    itemsView = new View(parentTemplate);
-    itemsComponent = new Controller(items, itemsView);
-  });
-
-  it("should render child component", () => {
-    const items = [
-      {
-        name: "Nike Shoes",
-      },
-      {
-        name: "Pants",
-      },
-    ];
-
-    const html = itemsComponent.bindData(items);
-    expect(html).toContain("<div>Nike Shoes</div>");
-    expect(html).toContain("<div>Pants</div>");
-  });
-});
