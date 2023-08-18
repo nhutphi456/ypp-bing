@@ -3,6 +3,9 @@ import { INews } from "./news.model";
 
 export class NewsView extends View<INews> {
   constructor() {
-    super((data: INews) => `<div>${data.source} ${data.title}</div>`);
+    super();
+  }
+  render(data: INews): string {
+    return `<div>${data.source} ${data.title}</div>`
   }
 }

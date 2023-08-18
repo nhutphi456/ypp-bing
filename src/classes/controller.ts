@@ -2,22 +2,23 @@ import { Model } from "./model";
 import { View } from "./view";
 
 export class Controller<T> {
+  data: T
   view: View<T>;
   model: Model<T>;
-  children: Controller<any>[];
 
-  constructor(model: Model<T>, view: View<T>, children?: Controller<any>[]) {
+  constructor(data: T, model: Model<T>, view: View<T>) {
     this.view = view;
     this.model = model;
-    this.children = children ? children : [];
+    this.data = data
+    this.bindData(this.data)
   }
 
   bindData(data: T) {
     this.model.setData(data);
-    return this.updateView();
+    this.render();
   }
 
-  updateView() {
+  render() {
     const data = this.model.getData();
     let html = this.view.render(data);
     return html;
