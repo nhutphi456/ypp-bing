@@ -1,20 +1,13 @@
-import { Component } from "../../base/component.decorator";
 import { BaseComponent } from "../../base/component";
 import { INews, NewsModel } from "./news.model";
 import { NewsView } from "./news.view";
 
-@Component({
-  selector: "news",
-})
-export class NewsComponent extends BaseComponent<INews>{
-  newsModel: NewsModel;
-  newsView: NewsView;
+export class NewsComponent extends BaseComponent<INews> {
+  static selector = "news";
 
-  constructor(
-    newsModel: NewsModel,
-    newsView: NewsView
-  ) {
+  constructor() {
+    const newsModel = new NewsModel();
+    const newsView = new NewsView();
     super(newsModel, newsView);
   }
-
 }
