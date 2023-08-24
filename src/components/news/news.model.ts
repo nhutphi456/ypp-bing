@@ -1,4 +1,4 @@
-import { Model } from "../../classes/model";
+import { Model } from "../../base/model";
 
 export interface INews {
   title: string;

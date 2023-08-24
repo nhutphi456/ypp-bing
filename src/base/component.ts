@@ -1,16 +1,13 @@
 import { Model } from "./model";
 import { View } from "./view";
 
-export class Controller<T> {
-  data: T
+export class BaseComponent<T> {
   view: View<T>;
   model: Model<T>;
 
-  constructor(data: T, model: Model<T>, view: View<T>) {
+  constructor(model: Model<T>, view: View<T>) {
     this.view = view;
     this.model = model;
-    this.data = data
-    this.bindData(this.data)
   }
 
   bindData(data: T) {
