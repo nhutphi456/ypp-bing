@@ -1,16 +1,23 @@
-import { AppController } from "../controller/controller";
+import { ComponentBuilder } from "../base/component";
+import { Component } from "../decorator/component";
+import { News } from "../models/news";
 
-describe("Test News", () => {
-  it("should render news component", () => {
-    const app = new AppController();
-    app.news.bindData({
-      title: "MU vs MC",
-      source: "BBC",
-      like: 12,
+describe("Test component builder", () => {
+  it("should build component", () => {
+    const component = new ComponentBuilder<News>();
+    component.setSelector("test-component");
+    component.setTemplate("<div>{{title}} {{like}}</div>");
+    component.setData({
+      title: "Test component",
+      like: 20,
     });
-
-    const result = app.news.render();
-
-    expect(result).toBe(`<div>BBC MU vs MC</div>`);
+    const view = component.build()
+    expect(view).toBe("<div>Test component 20</div>")
   });
 });
+
+describe("Test decorator", () => {
+  it("should decorator works", () => {
+    
+  })
+})

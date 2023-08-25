@@ -1,23 +1,27 @@
-import { Model } from "./model";
-import { View } from "./view";
+export class ComponentBuilder<T extends Record<string, any>> {
+  private selector: string;
+  private template: string;
+  private data: T;
 
-export class BaseComponent<T> {
-  view: View<T>;
-  model: Model<T>;
+  constructor() {}
 
-  constructor(model: Model<T>, view: View<T>) {
-    this.view = view;
-    this.model = model;
+  setSelector(selector: string) {
+    this.selector = selector
   }
 
-  bindData(data: T) {
-    this.model.setData(data);
-    this.render();
+  setTemplate(template: string) {
+    this.template = template;
   }
 
-  render() {
-    const data = this.model.getData();
-    let html = this.view.render(data);
-    return html;
+  setData(data: T) {
+    this.data = data;
+  }
+
+  build(): string {
+    let view = this.template;
+    for (let key in this.data) {
+      view = view.replace(`{{${key}}}`, this.data[key]);
+    }
+    return view;
   }
 }
