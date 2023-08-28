@@ -30,7 +30,7 @@ export class Component<T extends Record<string, any>> {
     return this;
   }
 
-  addChildComponent(component: string) {
+  addChildSelector(component: string) {
     this.components.push(component);
   }
 

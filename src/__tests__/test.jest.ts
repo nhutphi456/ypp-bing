@@ -1,9 +1,10 @@
 import { Component } from "../base/component";
 import { NewsComponent } from "../components/news";
 import { AppModule } from "../controller/appModule";
+import { Finance } from "../models/finance";
 import { News } from "../models/news";
 
-describe("App module", () => {
+describe("App Module", () => {
   let appModule: AppModule;
 
   beforeAll(() => {
@@ -17,7 +18,7 @@ describe("App module", () => {
       .build();
 
     appModule.addComponent(appComponent);
-    appModule.setRootComponent(appComponent)
+    appModule.setRootComponent(appComponent);
 
     const result = appModule.run();
 
@@ -36,7 +37,7 @@ describe("App module", () => {
       `
       )
       .build();
-    appComponent.addChildComponent("news");
+    appComponent.addChildSelector("news");
 
     const newsComponent = new Component<News>()
       .setSelector("news")
@@ -44,10 +45,11 @@ describe("App module", () => {
       .setData({ title: "News 1", like: 20 })
       .build();
 
+    appModule.setRootComponent(appComponent);
     appModule.addComponent(appComponent);
     appModule.addComponent(newsComponent);
 
-    const result = appModule.render("app");
+    const result = appModule.run();
     expect(result).toContain("<div>title: News 1 like: 20</div>");
   });
 
@@ -63,7 +65,7 @@ describe("App module", () => {
       `
       )
       .build();
-    appComponent.addChildComponent("news");
+    appComponent.addChildSelector("news");
 
     const newsComponent = new Component<News>()
       .setSelector("news")
@@ -75,7 +77,7 @@ describe("App module", () => {
       )
       .setData({ title: "News 1", like: 20 })
       .build();
-    newsComponent.addChildComponent("channel");
+    newsComponent.addChildSelector("channel");
 
     const channelComponent = new Component<{ name: string }>()
       .setSelector("channel")
@@ -83,13 +85,64 @@ describe("App module", () => {
       .setData({ name: "VNExpress" })
       .build();
 
+    appModule.setRootComponent(appComponent);
     appModule.addComponent(appComponent);
     appModule.addComponent(newsComponent);
     appModule.addComponent(channelComponent);
-    
-    const result = appModule.render("app")
 
-    expect(result).toContain("<span>VNExpress</span>")
-    // expect(result).toBe("<span>VNExpress</span>")
+    const result = appModule.run();
+
+    expect(result).toContain("<span>VNExpress</span>");
+  });
+});
+
+describe("Test components", () => {
+  let appModule: AppModule;
+  let appComponent: Component<any>;
+
+  beforeAll(() => {
+    appModule = new AppModule();
+    appComponent = new Component()
+      .setSelector("app")
+      .setTemplate(
+        `
+        <div>
+          <news/>
+          <finance/>
+        </div>
+      `
+      )
+      .build();
+    appModule.setRootComponent(appComponent);
+    appModule.addComponent(appComponent);
+  });
+
+  it("should render list component", () => {
+    const news = new Component<News>()
+      .setSelector("news")
+      .setTemplate(
+        `<div><p>Title: {{title}}</p><p>Like: {{like}}</p></div>`
+      )
+      .setData({
+        title: "News 1",
+        like: 20,
+      })
+      .build();
+
+    const finance = new Component<Finance>()
+      .setSelector("finance")
+      .setTemplate(`<span>{{code}} {{value}}</span>`)
+      .setData({ code: "VNM", value: 100 })
+      .build();
+
+    appModule.addComponent(news);
+    appModule.addComponent(finance);
+    appComponent.addChildSelector("news");
+    appComponent.addChildSelector("finance");
+
+    const result = appModule.run();
+
+    expect(result).toContain(`<div><p>Title: News 1</p><p>Like: 20</p></div>`);
+    expect(result).toContain(`<span>VNM 100</span>`);
   });
 });
