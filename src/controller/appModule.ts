@@ -1,5 +1,4 @@
 import { Component } from "../base/component";
-
 export class AppModule {
   private components: { [key: string]: Component<any> };
   private rootComponent: Component<any>;
@@ -21,7 +20,7 @@ export class AppModule {
     const component = this.components[componentSelector];
     let view = component.renderView();
     component.getComponents().forEach((childSelector) => {
-      view = view.replace(`<${childSelector}/>`, this.render(childSelector));
+      view = view.replace(`<${childSelector}></${childSelector}>`, this.render(childSelector));
     });
     return view;
   }

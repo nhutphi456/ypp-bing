@@ -1,6 +1,7 @@
 import { Component } from "../base/component";
 import { NewsComponent } from "../components/news";
 import { AppModule } from "../controller/appModule";
+import { ComponentDecorator } from "../decorator/component";
 import { Finance } from "../models/finance";
 import { News } from "../models/news";
 
@@ -32,24 +33,23 @@ describe("App Module", () => {
         `
         <div>
           Welcome to my app!
-          <news/>
+          <news></news>
         </div>
       `
       )
       .build();
     appComponent.addChildSelector("news");
-
     const newsComponent = new Component<News>()
       .setSelector("news")
       .setTemplate("<div>title: {{title}} like: {{like}}</div>")
       .setData({ title: "News 1", like: 20 })
       .build();
-
     appModule.setRootComponent(appComponent);
     appModule.addComponent(appComponent);
     appModule.addComponent(newsComponent);
 
     const result = appModule.run();
+
     expect(result).toContain("<div>title: News 1 like: 20</div>");
   });
 
@@ -60,9 +60,9 @@ describe("App Module", () => {
         `
         <div>
           Welcome to my app!
-          <news/>
+          <news></news>
         </div>
-      `
+        `
       )
       .build();
     appComponent.addChildSelector("news");
@@ -72,7 +72,7 @@ describe("App Module", () => {
       .setTemplate(
         `<div>
           title: {{title}} like: {{like}}
-          <channel/>
+          <channel></channel>
         </div>`
       )
       .setData({ title: "News 1", like: 20 })
@@ -107,8 +107,8 @@ describe("Test components", () => {
       .setTemplate(
         `
         <div>
-          <news/>
-          <finance/>
+          <news></news>
+          <finance></finance>
         </div>
       `
       )
@@ -117,12 +117,10 @@ describe("Test components", () => {
     appModule.addComponent(appComponent);
   });
 
-  it("should render list component", () => {
+  it("should render multiple components", () => {
     const news = new Component<News>()
       .setSelector("news")
-      .setTemplate(
-        `<div><p>Title: {{title}}</p><p>Like: {{like}}</p></div>`
-      )
+      .setTemplate(`<div><p>Title: {{title}}</p><p>Like: {{like}}</p></div>`)
       .setData({
         title: "News 1",
         like: 20,
@@ -146,3 +144,46 @@ describe("Test components", () => {
     expect(result).toContain(`<span>VNM 100</span>`);
   });
 });
+
+describe("Test Decorator", () => {
+  it("should decorator works properly", () => {
+    @ComponentDecorator({
+      selector: "news",
+      template: "<div>{{title}}</div>",
+    })
+    class NewsComponent {
+      title = "Hello";
+
+      build() {
+        let view = (this as any).template;
+        for (let key in this) {
+          view = view.replace(`{{${key}}}`, this[key]);
+        }
+        return view;
+      }
+    }
+
+    const news = new NewsComponent().build();
+
+    expect(news).toBe("<div>Hello</div>");
+  });
+});
+
+/**
+ * @NgModule({
+ *    declarations: {}
+ *    root
+ * })
+ * class AppModule
+ *
+ * @Component({
+ *   selector: "",
+ *   template: "<div>{{title}}</div>"
+ * })
+ * class NewsComponent {
+ *  title = "news 1"
+ *
+ * }
+ *
+ * encounter selector -> create instance of the class and build the view
+ */
