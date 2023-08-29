@@ -6,7 +6,7 @@ import { News } from "../models/news";
   template: `
         <div>
             <span>News List</span>
-            <news *ngFor="let item of items" data={{item}}></news>
+            <news *ngFor="let item of newsList" data={{item}}></news>
         </div>
     `,
 })

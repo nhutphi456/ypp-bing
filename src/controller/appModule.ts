@@ -1,31 +1,66 @@
-import { Component } from "../base/component";
 export class AppModule {
-  private components: { [key: string]: Component<any> };
-  private rootComponent: Component<any>;
+  public declaration: { [key: string]: Function };
+  private rootComponent: Function;
 
   constructor() {
-    this.components = {};
+    this.declaration = {};
   }
 
-  addComponent(component: Component<any>) {
-    const appSelector = component.getSelector();
-    this.components[appSelector] = component;
+  addComponent(component: Function) {
+    const appSelector = (component as any).prototype.selector;
+    this.declaration[appSelector] = component;
   }
 
-  setRootComponent(component: Component<any>) {
+  setRootComponent(component: Function) {
     this.rootComponent = component;
   }
 
-  render(componentSelector: string): string {
-    const component = this.components[componentSelector];
-    let view = component.renderView();
-    component.getComponents().forEach((childSelector) => {
-      view = view.replace(`<${childSelector}></${childSelector}>`, this.render(childSelector));
-    });
+  private render(rootComponentSelector: string) {
+    const component = this.declaration[rootComponentSelector];
+    const root = new (component as any)();
+    document.body.innerHTML = this.interpolate(root);
+
+    this.traverse(document.body);
+    return document.body.innerHTML;
+  }
+
+  private traverse(element: HTMLElement) {
+    const parser = new DOMParser();
+    for (let key in this.declaration) {
+      const childElements = element.querySelectorAll(key);
+      childElements.forEach((element) => {
+        const componentClass = this.declaration[element.tagName.toLowerCase()];
+        const componentInstance = new (componentClass as any)();
+        const newElement = parser.parseFromString(
+          this.interpolate(componentInstance),
+          "text/html"
+        ).body.firstChild as HTMLElement;
+        element.parentNode.appendChild(newElement);
+        element.parentNode.removeChild(element);
+        this.traverse(newElement);
+      });
+    }
+  }
+
+  interpolate(component) {
+    let view = component.template;
+    for (let key in component) {
+      view = view.replace(`{{${key}}}`, component[key]);
+    }
     return view;
   }
 
   run() {
-    return this.render(this.rootComponent.getSelector());
+    return this.render(this.rootComponent.prototype.selector);
   }
+
+  
+  // render(componentSelector: string): string {
+  //   const component = this.components[componentSelector];
+  //   let view = component.renderView();
+  //   component.getComponents().forEach((childSelector) => {
+  //     view = view.replace(`<${childSelector}></${childSelector}>`, this.render(childSelector));
+  //   });
+  //   return view;
+  // }
 }

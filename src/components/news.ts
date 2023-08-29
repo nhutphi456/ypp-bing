@@ -1,8 +1,17 @@
 import { Component } from "../base/component";
+import { ComponentDecorator } from "../decorator/component";
 import { News } from "../models/news";
 
-export class NewsComponent extends Component<News> {
-  constructor() {
-    super();
-  }
+@ComponentDecorator({
+  selector: "news",
+  template: `
+    <div>
+      <p>title: {{title}}</p>
+      <channel></channel>
+    </div>
+  `,
+})
+export class NewsComponent {
+  title = "News 1";
+  constructor() {}
 }
