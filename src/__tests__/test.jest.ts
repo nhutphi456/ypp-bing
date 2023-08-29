@@ -5,6 +5,10 @@ import { ComponentDecorator } from "../decorator/component";
 import { Finance } from "../models/finance";
 import { News } from "../models/news";
 
+/**
+ * @jest-environment jsdom 
+ */
+
 describe("App Module", () => {
   let appModule: AppModule;
 
