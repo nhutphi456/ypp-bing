@@ -64,6 +64,7 @@ export class Renderer {
       }
     }
 
+    
     const componentHtml = this.parser.parseFromString(view, "text/html")
       .body.firstChild as HTMLElement;
 
