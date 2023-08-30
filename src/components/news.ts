@@ -1,7 +1,5 @@
 import { Component } from "../base/component";
 import { ComponentDecorator } from "../decorator/component";
-import { News } from "../models/news";
-
 @ComponentDecorator({
   selector: "news",
   template: `
@@ -13,5 +11,11 @@ import { News } from "../models/news";
 })
 export class NewsComponent {
   title = "News 1";
-  constructor() {}
+  constructor() {
+  
+  }
+
+  changeTitle(title: string) {
+    this.title = title;
+  }
 }

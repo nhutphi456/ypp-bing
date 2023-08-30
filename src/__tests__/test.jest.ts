@@ -3,56 +3,70 @@ import { ChannelComponent } from "../components/channel";
 import { NewsComponent } from "../components/news";
 import { NewsList } from "../components/newsList";
 import { AppModule } from "../controller/appModule";
+import { ComponentDecorator } from "../decorator/component";
+import { Input } from "../decorator/input";
 
 /**
- * @jest-environment jsdom 
+ * @jest-environment jsdom
  */
 
 describe("Test declarations", () => {
   it("should component be declared", () => {
-    const appModule = new AppModule()
-    appModule.addComponent(NewsComponent)
-    appModule.addComponent(NewsList)
+    const appModule = new AppModule();
+    appModule.declareComponent(NewsComponent);
+    appModule.declareComponent(NewsList);
 
-    expect(appModule.declaration['news']).toBeTruthy()
-    expect(appModule.declaration['news-list']).toBeTruthy()
-  })
-})
+    expect(appModule.declaration["news"]).toBeTruthy();
+    expect(appModule.declaration["news-list"]).toBeTruthy();
+  });
+});
 
 describe("Test run app module", () => {
   it("should app module render app component", () => {
-    const appModule = new AppModule()
-    appModule.setRootComponent(AppComponent)
-    appModule.addComponent(AppComponent)
-    appModule.addComponent(NewsComponent)
-    appModule.addComponent(ChannelComponent)
+    const appModule = new AppModule();
+    appModule.setRootComponent(AppComponent);
+    appModule.declareComponent(AppComponent, NewsComponent, ChannelComponent)
+    
 
-    const result = appModule.run()
+    const result = appModule.run();
 
-    expect(result).toContain(`<p>title: News 1</p>`)
-    expect(result).toContain(`<span>VTC</span>`)
-  })
-})
-// describe("Test Decorator", () => {
-//   it("should decorator works properly", () => {
-//     @ComponentDecorator({
-//       selector: "news",
-//       template: "<div>{{title}}</div>",
-//     })
-//     class NewsComponent {
-//       title = "Hello";
+    expect(result).toContain(`<p>title: News 1</p>`);
+    expect(result).toContain(`<span>VTC</span>`);
+  });
+});
 
-//       build() {
-//         let view = (this as any).template;
-//         for (let key in this) {
-//           view = view.replace(`{{${key}}}`, this[key]);
-//         }
-//         return view;
-//       }
-//     }
+// describe("Test pass data", () => {
+//   let app: AppModule;
+//   @ComponentDecorator({
+//     selector: "parent-component",
+//     template: `
+//         <div>
+//           <child-component data="currentMessage"></child-component>
+//         </div>
+//       `,
+//   })
+//   class ParentComponent {
+//     currentMessage = "Hello";
+//   }
 
-//     const news = new NewsComponent().build();
+//   @ComponentDecorator({
+//     selector: "child-component",
+//     template: "<p>{{data}}</p>",
+//   })
+//   class ChildComponent {
+//     @Input() data: string;
+//   }
 
-//     expect(news).toBe("<div>Hello</div>");
+//   beforeAll(() => {
+//     app = new AppModule();
+//     app.setRootComponent(ParentComponent);
+//     app.declareComponent(ParentComponent);
+//     app.declareComponent(ChildComponent);
+//   });
+
+//   it("should pass data from parent to child component", () => {
+//     const result = app.run()
+
+//     expect(result).toContain(`<p>Hello</p>`)
 //   });
 // });

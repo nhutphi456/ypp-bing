@@ -4,11 +4,11 @@ import { News } from "../models/news";
 @ComponentDecorator({
   selector: "news-list",
   template: `
-        <div>
-            <span>News List</span>
-            <news *ngFor="let item of newsList" data={{item}}></news>
-        </div>
-    `,
+    <div>
+        <span>News List</span>
+        <news *ngFor="let item of newsList" data="item"></news>
+    </div>
+  `,
 })
 export class NewsList {
   newsList: News[] = [
