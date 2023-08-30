@@ -11,11 +11,5 @@ import { ComponentDecorator } from "../decorator/component";
 })
 export class NewsComponent {
   title = "News 1";
-  constructor() {
-  
-  }
-
-  changeTitle(title: string) {
-    this.title = title;
-  }
+  constructor() {}
 }

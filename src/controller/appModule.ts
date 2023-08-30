@@ -11,7 +11,7 @@ export class AppModule {
     this.renderer = new Renderer();
   }
 
-  declareComponent(...components: Component[]) {
+  declareComponents(...components: Component[]) {
     for (const component of components) {
       const appSelector = component.prototype.selector;
       this.declaration[appSelector] = component;

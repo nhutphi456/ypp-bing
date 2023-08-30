@@ -2,8 +2,11 @@ import { Component } from "../base/component";
 
 export class Renderer {
   private parser: DOMParser;
+  private serializer: XMLSerializer;
+
   constructor() {
     this.parser = new DOMParser();
+    this.serializer = new XMLSerializer();
   }
 
   renderRoot(
@@ -13,7 +16,7 @@ export class Renderer {
     const component = componentDictionary[rootComponentSelector];
     const root = new component();
 
-    document.body.innerHTML = this.interpolate(root);
+    document.body.innerHTML = `<${root.selector}></${root.selector}>`;
     this.traverse(document.body, componentDictionary);
 
     return document.body.innerHTML;
@@ -26,36 +29,58 @@ export class Renderer {
     for (const key in componentDictionary) {
       const childElements = element.querySelectorAll(key);
 
-      childElements.forEach((element) => {
+      childElements.forEach((childElement) => {
         const componentClass =
-          componentDictionary[element.tagName.toLowerCase()];
+          componentDictionary[childElement.tagName.toLowerCase()];
         const componentInstance = new componentClass();
-        const newElement = this.parser.parseFromString(
+
+        componentInstance.data = JSON.parse(childElement.getAttribute("data"));
+
+        const newChildElement = this.parser.parseFromString(
           this.interpolate(componentInstance),
           "text/html"
         ).body.firstChild as HTMLElement;
 
-        //TODO
-        // const data = newElement.getAttribute("data")
-        // if(data) {
-
-        // }
-
-        const parentElement = element.parentNode;
+        const parentElement = childElement.parentNode;
 
         //functional program
-        parentElement.appendChild(newElement);
-        parentElement.removeChild(element);
-        this.traverse(newElement, componentDictionary);
+        parentElement.appendChild(newChildElement);
+        parentElement.removeChild(childElement);
+        this.traverse(newChildElement, componentDictionary);
       });
     }
   }
 
-  private interpolate(component) {
+  interpolate(component) {
     let view = component.template;
-    for (let key in component) {
-      view = view.replace(`{{${key}}}`, component[key]);
+
+    for (const key in component) {
+      if (typeof component[key] === "object") {
+        for (const k in component[key]) {
+          view = view.replace(`{{${key}.${k}}}`, component[key][k]);
+        }
+      } else {
+        view = view.replace(`{{${key}}}`, component[key]);
+      }
     }
-    return view;
+
+    const componentHtml = this.parser.parseFromString(view, "text/html")
+      .body.firstChild as HTMLElement;
+
+    const elements = componentHtml.querySelectorAll("[data]");
+    elements.forEach((element) => {
+      const dataKey = element.getAttribute("data");
+      element.setAttribute("data", JSON.stringify(component[dataKey]));
+    });
+
+    const newView = this.serializer
+      .serializeToString(componentHtml)
+      .replace(/xmlns="[^"]+"/, "");
+
+    return newView;
+  }
+
+  bindDataAttribute(component) {
+    
   }
 }
