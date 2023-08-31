@@ -17,7 +17,7 @@ export class AppModule {
 
   declareComponents(...components: Component[]) {
     for (const component of components) {
-      const selector = this.reflectHelper.getMetadata(component).selector;
+      const selector = this.reflectHelper.getMetadata(component).selector.toUpperCase();
       this.declaration[selector] = component;
     }
   }

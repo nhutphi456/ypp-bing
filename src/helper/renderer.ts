@@ -31,7 +31,7 @@ export class Renderer {
 
       elements.forEach((child: HTMLElement) => {
         const componentClass =
-          declaration[child.tagName.toLowerCase()];
+          declaration[child.tagName];
         const componentInstance = new componentClass();
         //parse data receive from parent component if any
         componentInstance.data = JSON.parse(child.getAttribute("data"));
