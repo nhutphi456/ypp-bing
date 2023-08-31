@@ -2,17 +2,15 @@ import { Component } from "../base/component";
 
 export class Renderer {
   private parser: DOMParser;
-  private serializer: XMLSerializer;
 
   constructor() {
     this.parser = new DOMParser();
-    this.serializer = new XMLSerializer();
   }
 
   renderRoot(
     rootComponentSelector: string,
     componentDictionary: { [key: string]: Component }
-  ) {
+  ): string {
     const component = componentDictionary[rootComponentSelector];
     const root = new component();
 
@@ -64,9 +62,8 @@ export class Renderer {
       }
     }
 
-    
-    const componentHtml = this.parser.parseFromString(view, "text/html")
-      .body.firstChild as HTMLElement;
+    const componentHtml = this.parser.parseFromString(view, "text/html").body
+      .firstChild as HTMLElement;
 
     const elements = componentHtml.querySelectorAll("[data]");
     elements.forEach((element) => {
@@ -74,14 +71,8 @@ export class Renderer {
       element.setAttribute("data", JSON.stringify(component[dataKey]));
     });
 
-    const newView = this.serializer
-      .serializeToString(componentHtml)
-      .replace(/xmlns="[^"]+"/, "");
-
-    return newView;
+    return componentHtml.outerHTML;
   }
 
-  bindDataAttribute(component) {
-    
-  }
+  bindDataAttribute(component) {}
 }

@@ -3,20 +3,6 @@ import { AppModule } from "../controller/appModule";
 import { ComponentDecorator } from "../decorator/component";
 import { Input } from "../decorator/input";
 
-/**
- * @jest-environment jsdom
- */
-// describe("Test meta data", () => {
-//   it("test meta data", () => {
-//     @ComponentDecorator({
-//       selector: "test",
-//       template: "<div>Test component</div>"
-//     })
-//     class TestComponent {}
-
-//     expect(TestComponent.prototype.selector).toBe("test-component")
-//   })
-// })
 describe("Test declarations", () => {
   it("should component be declared", () => {
     const appModule = new AppModule();
