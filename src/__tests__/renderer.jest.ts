@@ -25,7 +25,7 @@ describe("Test renderer class", () => {
     });
     it("should replace view", () => {
       const testComponent = new TestComponent();
-      const result = renderer.interpolate(testComponent);
+      const result = renderer.bindData(testComponent);
   
       expect(result).toContain(
         '<news-component data="&quot;Hello everyone&quot;"></news-component>'

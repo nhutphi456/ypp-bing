@@ -1,23 +1,28 @@
-import { AppComponent } from "../components/app";
-import { ChannelComponent } from "../components/channel";
 import { NewsComponent } from "../components/news";
-import { NewsList } from "../components/newsList";
 import { AppModule } from "../controller/appModule";
-import { Renderer } from "../controller/renderer";
 import { ComponentDecorator } from "../decorator/component";
 import { Input } from "../decorator/input";
 
 /**
  * @jest-environment jsdom
  */
+// describe("Test meta data", () => {
+//   it("test meta data", () => {
+//     @ComponentDecorator({
+//       selector: "test",
+//       template: "<div>Test component</div>"
+//     })
+//     class TestComponent {}
 
+//     expect(TestComponent.prototype.selector).toBe("test-component")
+//   })
+// })
 describe("Test declarations", () => {
   it("should component be declared", () => {
     const appModule = new AppModule();
     appModule.declareComponents(NewsComponent);
 
     expect(appModule.declaration["news"]).toBeTruthy();
-    
   });
 });
 
@@ -54,7 +59,9 @@ describe("Test render multiple components", () => {
     </div>
   `,
   })
-  class AppComponent {}
+  class AppComponent {
+
+  }
   @ComponentDecorator({
     selector: "news",
     template: `
@@ -82,7 +89,7 @@ describe("Test render multiple components", () => {
     app.declareComponents(AppComponent, NewsComponent, ChannelComponent);
   });
 
-  it("should app module render app component", () => {
+  it("should app module render multiple components", () => {
     const result = app.run();
 
     expect(result).toContain(`<p>title: News 1</p>`);

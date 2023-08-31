@@ -37,7 +37,7 @@ export class Renderer {
         componentInstance.data = JSON.parse(childElement.getAttribute("data"));
 
         const newChildElement = this.parser.parseFromString(
-          this.interpolate(componentInstance),
+          this.bindData(componentInstance),
           "text/html"
         ).body.firstChild as HTMLElement;
 
@@ -51,7 +51,7 @@ export class Renderer {
     }
   }
 
-  interpolate(component) {
+  bindData(component) {
     let view = component.template;
 
     for (const key in component) {
