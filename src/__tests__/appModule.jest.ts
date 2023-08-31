@@ -1,9 +1,15 @@
-import { NewsComponent } from "../components/news";
+// import { NewsComponent } from "../components/news";
+import { BaseComponent } from "../base/component";
 import { AppModule } from "../controller/appModule";
-import { ComponentDecorator } from "../decorator/component";
+import { ComponentDecorator, ComponentMetadata } from "../decorator/component";
 import { Input } from "../decorator/input";
 
 describe("Test declarations", () => {
+  @ComponentMetadata({
+    selector: "news",
+    template: "<div>news 1</div>"
+  })
+  class NewsComponent {}
   it("should component be declared", () => {
     const appModule = new AppModule();
     appModule.declareComponents(NewsComponent);
@@ -15,11 +21,11 @@ describe("Test declarations", () => {
 describe("Test render app component", () => {
   let app: AppModule;
 
-  @ComponentDecorator({
+  @ComponentMetadata({
     selector: "app-root",
     template: `<div><p>Welcome to my app!</p></div>`,
   })
-  class AppComponent {}
+  class AppComponent extends BaseComponent {}
 
   it("should app module render app component", () => {
     app = new AppModule();
@@ -35,7 +41,7 @@ describe("Test render app component", () => {
 describe("Test render multiple components", () => {
   let app: AppModule;
 
-  @ComponentDecorator({
+  @ComponentMetadata({
     selector: "app-root",
     template: `
     <div>
@@ -45,10 +51,10 @@ describe("Test render multiple components", () => {
     </div>
   `,
   })
-  class AppComponent {
+  class AppComponent extends BaseComponent{
 
   }
-  @ComponentDecorator({
+  @ComponentMetadata({
     selector: "news",
     template: `
       <div>
@@ -57,18 +63,18 @@ describe("Test render multiple components", () => {
       </div>
     `,
   })
-  class NewsComponent {
+  class NewsComponent extends BaseComponent{
     title = "News 1";
-    constructor() {}
   }
 
-  @ComponentDecorator({
+  @ComponentMetadata({
     selector: "channel",
     template: "<span>{{name}}</span>",
   })
-  class ChannelComponent {
+  class ChannelComponent extends BaseComponent{
     name = "VTC";
   }
+
   beforeAll(() => {
     app = new AppModule();
     app.setRootComponent(AppComponent);
@@ -85,7 +91,7 @@ describe("Test render multiple components", () => {
 
 describe("Test pass data", () => {
   let app: AppModule;
-  @ComponentDecorator({
+  @ComponentMetadata({
     selector: "parent-component",
     template: `
         <div>
@@ -93,15 +99,15 @@ describe("Test pass data", () => {
         </div>
       `,
   })
-  class ParentComponent {
+  class ParentComponent extends BaseComponent {
     currentMessage = "Hello";
   }
 
-  @ComponentDecorator({
+  @ComponentMetadata({
     selector: "child-component",
     template: "<p>{{data}}</p>",
   })
-  class ChildComponent {
+  class ChildComponent extends BaseComponent {
     @Input() data: string;
   }
 
@@ -119,9 +125,9 @@ describe("Test pass data", () => {
   });
 });
 
-describe("Test pass data", () => {
+describe("Test pass object data", () => {
   let app: AppModule;
-  @ComponentDecorator({
+  @ComponentMetadata({
     selector: "parent-component",
     template: `
         <div>
@@ -129,11 +135,11 @@ describe("Test pass data", () => {
         </div>
       `,
   })
-  class ParentComponent {
+  class ParentComponent extends BaseComponent{
     item = { title: "Hello", like: 20 };
   }
 
-  @ComponentDecorator({
+  @ComponentMetadata({
     selector: "child-component",
     template:  `
       <div>
@@ -142,7 +148,7 @@ describe("Test pass data", () => {
       </div>
     `,
   })
-  class ChildComponent {
+  class ChildComponent extends BaseComponent{
     @Input() data;
   }
 

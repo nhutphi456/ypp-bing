@@ -1,10 +1,11 @@
-import { Renderer } from "../controller/renderer";
-import { ComponentDecorator } from "../decorator/component";
+import { Renderer } from "../helper/renderer";
+import { ComponentDecorator, ComponentMetadata } from "../decorator/component";
+import { BaseComponent } from "../base/component";
 
 describe("Test renderer class", () => {
     let renderer: Renderer;
   
-    @ComponentDecorator({
+    @ComponentMetadata({
       selector: "test-component",
       template: `
         <div>
@@ -14,7 +15,7 @@ describe("Test renderer class", () => {
         </div>
       `,
     })
-    class TestComponent {
+    class TestComponent extends BaseComponent{
       title = "Welcome to app";
       currentMessage = "Hello everyone";
       channel = { name: "Zing" };

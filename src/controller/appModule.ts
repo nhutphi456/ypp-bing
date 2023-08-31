@@ -1,20 +1,24 @@
 import { Component } from "../base/component";
-import { Renderer } from "./renderer";
+import { COMPONENT_META_DATA } from "../constant";
+import { ReflectHelper } from "../helper/reflectHelper";
+import { Renderer } from "../helper/renderer";
 
 export class AppModule {
   public declaration: { [key: string]: Component };
   private rootComponent: Component;
   private renderer: Renderer;
+  private reflectHelper: ReflectHelper;
 
   constructor() {
     this.declaration = {};
     this.renderer = new Renderer();
+    this.reflectHelper = new ReflectHelper();
   }
 
   declareComponents(...components: Component[]) {
     for (const component of components) {
-      const appSelector = component.prototype.selector;
-      this.declaration[appSelector] = component;
+      const selector = this.reflectHelper.getMetadata(component).selector;
+      this.declaration[selector] = component;
     }
   }
 
@@ -23,9 +27,9 @@ export class AppModule {
   }
 
   run() {
-    return this.renderer.renderRoot(
-      this.rootComponent.prototype.selector,
-      this.declaration
-    );
+    const rootSelector = this.reflectHelper.getMetadata(
+      this.rootComponent
+    ).selector;
+    return this.renderer.renderRoot(rootSelector, this.declaration);
   }
 }

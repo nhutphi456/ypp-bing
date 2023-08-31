@@ -8,13 +8,13 @@ export function ComponentDecorator(config: { selector: string; template: string 
   };
 }
 
-interface ComponentMetadata {
+export interface IComponentMetadata {
   selector: string;
   template: string;
 }
 
 // Define the decorator function
-export function ComponentMetadata(metadata: ComponentMetadata) {
+export function ComponentMetadata(metadata: IComponentMetadata) {
   return (target: Component) => {
       Reflect.defineMetadata("componentMetadata", metadata, target);
   };
