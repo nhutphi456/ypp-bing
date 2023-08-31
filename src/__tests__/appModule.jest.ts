@@ -23,7 +23,9 @@ describe("Test render app component", () => {
 
   @ComponentMetadata({
     selector: "app-root",
-    template: `<div><p>Welcome to my app!</p></div>`,
+    template: `<div><p>Welcome to my app!</p></div>
+    <div>hello</div>
+    `,
   })
   class AppComponent extends BaseComponent {}
 

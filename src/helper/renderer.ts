@@ -13,34 +13,34 @@ export class Renderer {
 
   renderRoot(
     rootComponentSelector: string,
-    componentDictionary: { [key: string]: Component }
+    declaration: { [key: string]: Component }
   ): string {
     document.body.innerHTML = `<${rootComponentSelector}></${rootComponentSelector}>`;
 
-    this.traverse(document.body, componentDictionary);
+    this.traverse(document.body, declaration);
 
     return document.body.innerHTML;
   }
 
   private traverse(
     element: HTMLElement,
-    componentDictionary: { [key: string]: Component }
+    declaration: { [key: string]: Component }
   ): void {
-    for (const key in componentDictionary) {
-      const childElements = element.querySelectorAll(key);
+    for (const key in declaration) {
+      const elements = element.querySelectorAll(key);
 
-      childElements.forEach((childElement: HTMLElement) => {
+      elements.forEach((child: HTMLElement) => {
         const componentClass =
-          componentDictionary[childElement.tagName.toLowerCase()];
+          declaration[child.tagName.toLowerCase()];
         const componentInstance = new componentClass();
         //parse data receive from parent component if any
-        componentInstance.data = JSON.parse(childElement.getAttribute("data"));
+        componentInstance.data = JSON.parse(child.getAttribute("data"));
 
         const newChildElement = this.htmlParser.parseToHtmlElement(
           this.bindData(componentInstance)
         );
-        this.replaceChild(childElement, newChildElement);
-        this.traverse(newChildElement, componentDictionary);
+        this.replaceChild(child, newChildElement);
+        this.traverse(newChildElement, declaration);
       });
     }
   }

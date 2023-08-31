@@ -6,7 +6,6 @@ export class HtmlParser {
   }
   
   parseToHtmlElement(htmlString: string): HTMLElement {
-    return this.parser.parseFromString(htmlString, "text/html").body
-      .firstChild as HTMLElement;
+    return this.parser.parseFromString(htmlString, "text/html").body;
   }
 }
