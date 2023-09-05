@@ -2,7 +2,6 @@
 import { BaseComponent } from "../base/component";
 import { AppModule } from "../controller/appModule";
 import { ComponentMetadata } from "../decorator/component";
-import { Input } from "../decorator/input";
 
 describe("Test declarations", () => {
   @ComponentMetadata({
@@ -14,7 +13,7 @@ describe("Test declarations", () => {
     const appModule = new AppModule();
     appModule.declareComponents(NewsComponent);
 
-    expect(appModule.declaration["NEWS"]).toBeTruthy();
+    expect(appModule.getDeclaration()["NEWS"]).toBeTruthy();
   });
 });
 
@@ -48,13 +47,13 @@ describe("Test render multiple components", () => {
   @ComponentMetadata({
     selector: "app-root",
     template: `
-    <div>
-        Welcome to my app!
-        <news></news>
-        <news></news>
-    </div>
-    <div>Hello from another div</div>
-  `,
+      <div>
+          Welcome to my app!
+          <news></news>
+          <news></news>
+      </div>
+      <div>Hello from another div</div>
+    `,
   })
   class AppComponent extends BaseComponent {}
   @ComponentMetadata({
@@ -97,10 +96,10 @@ describe("Test pass data", () => {
   @ComponentMetadata({
     selector: "parent-component",
     template: `
-        <div>
-          <child-component data="currentMessage"></child-component>
-        </div>
-      `,
+      <div>
+        <child-component data="currentMessage"></child-component>
+      </div>
+    `,
   })
   class ParentComponent extends BaseComponent {
     currentMessage = "Hello";
@@ -111,7 +110,7 @@ describe("Test pass data", () => {
     template: "<p>{{data}}</p>",
   })
   class ChildComponent extends BaseComponent {
-    @Input() data: string;
+    data: string;
   }
 
   beforeAll(() => {
@@ -133,10 +132,10 @@ describe("Test pass object data", () => {
   @ComponentMetadata({
     selector: "parent-component",
     template: `
-        <div>
-          <child-component data="item"></child-component>
-        </div>
-      `,
+      <div>
+        <child-component data="item"></child-component>
+      </div>
+    `,
   })
   class ParentComponent extends BaseComponent {
     item = { title: "Hello", like: 20 };
@@ -152,7 +151,7 @@ describe("Test pass object data", () => {
     `,
   })
   class ChildComponent extends BaseComponent {
-    @Input() data;
+    data;
   }
 
   beforeAll(() => {

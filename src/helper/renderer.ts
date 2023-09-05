@@ -1,17 +1,15 @@
 import { Component } from "../base/component";
+import { Declaration } from "../types/declaration";
 import { HtmlParser } from "./htmlParser";
-import { ReflectHelper } from "./reflectHelper";
 
 export class Renderer {
-  private reflectHelper: ReflectHelper;
   private htmlParser: HtmlParser;
 
   constructor() {
-    this.reflectHelper = new ReflectHelper();
     this.htmlParser = new HtmlParser();
   }
 
-  renderRoot(rootSelector: string, declaration: { [key: string]: Component }): string {
+  renderRoot(rootSelector: string, declaration: Declaration): string {
     document.body.innerHTML = `<${rootSelector}></${rootSelector}>`;
 
     this.traverse(document.body, declaration);
@@ -19,7 +17,7 @@ export class Renderer {
     return document.body.innerHTML;
   }
 
-  private traverse(element: HTMLElement, declaration: { [key: string]: Component }): void {
+  private traverse(element: HTMLElement, declaration: Declaration): void {
     for (const key in declaration) {
       const elements = element.querySelectorAll(key);
 
@@ -38,8 +36,8 @@ export class Renderer {
 
   private replaceChild(element: HTMLElement, newElement: HTMLElement): void {
     const parentElement = element.parentNode;
-    //functional program
-    Array.from(newElement.children).forEach((child) => {
+    //functional program?
+    [...newElement.children].forEach((child) => {
       parentElement.appendChild(child);
     });
     parentElement.removeChild(element);

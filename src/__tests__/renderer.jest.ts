@@ -8,12 +8,12 @@ describe("Test renderer class", () => {
   @ComponentMetadata({
     selector: "test-component",
     template: `
-        <div>
-          {{title}}
-          <news-component data="currentMessage"></news-component>
-          <p>title: {{channel.name}}</p>
-        </div>
-      `,
+      <div>
+        {{title}}
+        <news-component data="currentMessage"></news-component>
+        <p>title: {{channel.name}}</p>
+      </div>
+    `,
   })
   class TestComponent extends BaseComponent {
     title = "Welcome to app";
@@ -24,6 +24,7 @@ describe("Test renderer class", () => {
   beforeAll(() => {
     renderer = new Renderer();
   });
+  
   it("should replace view", () => {
     const testComponent = new TestComponent();
     const result = renderer.bindData(testComponent);
