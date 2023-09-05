@@ -1,9 +1,9 @@
-import { Renderer } from "../helper/renderer";
 import { ComponentMetadata } from "../decorator/component";
 import { BaseComponent } from "../base/component";
+import { DataBinder } from "../helper/dataBinder";
 
 describe("Test renderer class", () => {
-  let renderer: Renderer;
+  let dataBinder: DataBinder;
 
   @ComponentMetadata({
     selector: "test-component",
@@ -22,12 +22,12 @@ describe("Test renderer class", () => {
   }
 
   beforeAll(() => {
-    renderer = new Renderer();
+    dataBinder = new DataBinder();
   });
   
   it("should replace view", () => {
     const testComponent = new TestComponent();
-    const result = renderer.bindData(testComponent);
+    const result = dataBinder.bindData(testComponent);
 
     expect(result).toContain('<news-component data="&quot;Hello everyone&quot;"></news-component>');
     expect(result).toContain("<p>title: Zing</p>");

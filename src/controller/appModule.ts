@@ -21,7 +21,7 @@ export class AppModule {
 
   declareComponents(...components: Component[]): void {
     for (const component of components) {
-      const selector = this.reflectHelper.getMetadata(component).selector.toUpperCase();
+      const selector = this.reflectHelper.getComponentMetadata(component).selector.toUpperCase();
       this.declaration[selector] = component;
     }
   }
@@ -31,7 +31,7 @@ export class AppModule {
   }
 
   run(): string {
-    const rootSelector = this.reflectHelper.getMetadata(this.rootComponent).selector;
+    const rootSelector = this.reflectHelper.getComponentMetadata(this.rootComponent).selector;
     return this.renderer.renderRoot(rootSelector, this.declaration);
   }
 }
