@@ -1,7 +1,7 @@
-import { ComponentDecorator } from "../decorator/component";
+import { ComponentMetadata } from "../decorator/component";
 import { News } from "../models/news";
 
-@ComponentDecorator({
+@ComponentMetadata({
   selector: "news-list",
   template: `
     <div>

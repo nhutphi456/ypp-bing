@@ -1,20 +1,20 @@
 // import { NewsComponent } from "../components/news";
 import { BaseComponent } from "../base/component";
 import { AppModule } from "../controller/appModule";
-import { ComponentDecorator, ComponentMetadata } from "../decorator/component";
+import { ComponentMetadata } from "../decorator/component";
 import { Input } from "../decorator/input";
 
 describe("Test declarations", () => {
   @ComponentMetadata({
     selector: "news",
-    template: "<div>news 1</div>"
+    template: "<div>news 1</div>",
   })
   class NewsComponent {}
   it("should component be declared", () => {
     const appModule = new AppModule();
     appModule.declareComponents(NewsComponent);
 
-    expect(appModule.declaration["news"]).toBeTruthy();
+    expect(appModule.declaration["NEWS"]).toBeTruthy();
   });
 });
 
@@ -23,8 +23,9 @@ describe("Test render app component", () => {
 
   @ComponentMetadata({
     selector: "app-root",
-    template: `<div><p>Welcome to my app!</p></div>
-    <div>hello</div>
+    template: `
+      <div><p>Welcome to my app!</p></div>
+      <div>hello</div>
     `,
   })
   class AppComponent extends BaseComponent {}
@@ -36,7 +37,8 @@ describe("Test render app component", () => {
 
     const result = app.run();
 
-    expect(result).toBe("<div><p>Welcome to my app!</p></div>");
+    expect(result).toContain("<div><p>Welcome to my app!</p></div>");
+    expect(result).toContain("<div>hello</div>");
   });
 });
 
@@ -51,11 +53,10 @@ describe("Test render multiple components", () => {
         <news></news>
         <news></news>
     </div>
+    <div>Hello from another div</div>
   `,
   })
-  class AppComponent extends BaseComponent{
-
-  }
+  class AppComponent extends BaseComponent {}
   @ComponentMetadata({
     selector: "news",
     template: `
@@ -65,7 +66,7 @@ describe("Test render multiple components", () => {
       </div>
     `,
   })
-  class NewsComponent extends BaseComponent{
+  class NewsComponent extends BaseComponent {
     title = "News 1";
   }
 
@@ -73,7 +74,7 @@ describe("Test render multiple components", () => {
     selector: "channel",
     template: "<span>{{name}}</span>",
   })
-  class ChannelComponent extends BaseComponent{
+  class ChannelComponent extends BaseComponent {
     name = "VTC";
   }
 
@@ -137,20 +138,20 @@ describe("Test pass object data", () => {
         </div>
       `,
   })
-  class ParentComponent extends BaseComponent{
+  class ParentComponent extends BaseComponent {
     item = { title: "Hello", like: 20 };
   }
 
   @ComponentMetadata({
     selector: "child-component",
-    template:  `
+    template: `
       <div>
         <p>Title: {{data.title}}</p>
         <p>Like: {{data.like}}</p>
       </div>
     `,
   })
-  class ChildComponent extends BaseComponent{
+  class ChildComponent extends BaseComponent {
     @Input() data;
   }
 
@@ -168,4 +169,3 @@ describe("Test pass object data", () => {
     // expect(result).toBe("");
   });
 });
-

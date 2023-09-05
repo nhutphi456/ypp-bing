@@ -1,5 +1,4 @@
 import { Component } from "../base/component";
-import { COMPONENT_META_DATA } from "../constant";
 import { ReflectHelper } from "../helper/reflectHelper";
 import { Renderer } from "../helper/renderer";
 
@@ -27,9 +26,7 @@ export class AppModule {
   }
 
   run() {
-    const rootSelector = this.reflectHelper.getMetadata(
-      this.rootComponent
-    ).selector;
+    const rootSelector = this.reflectHelper.getMetadata(this.rootComponent).selector;
     return this.renderer.renderRoot(rootSelector, this.declaration);
   }
 }

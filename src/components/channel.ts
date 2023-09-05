@@ -1,6 +1,6 @@
-import { ComponentDecorator } from "../decorator/component";
+import { ComponentMetadata } from "../decorator/component";
 
-@ComponentDecorator({
+@ComponentMetadata({
   selector: "channel",
   template: "<span>{{name}}</span>",
 })

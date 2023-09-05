@@ -1,5 +1,5 @@
 export function Input(): PropertyDecorator {
-  return function (target: any, key: string) {
+  return function (target: string, key: string) {
     const internalKey = `__${key}`;
 
     // Getter function to access the decorated property
@@ -8,7 +8,7 @@ export function Input(): PropertyDecorator {
     };
 
     // Setter function to update the decorated property
-    const setter = function (newValue: any) {
+    const setter = function (newValue: string) {
       this[internalKey] = newValue;
     };
 

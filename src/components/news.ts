@@ -1,6 +1,5 @@
-import { Component } from "../base/component";
-import { ComponentDecorator } from "../decorator/component";
-@ComponentDecorator({
+import { ComponentMetadata } from "../decorator/component";
+@ComponentMetadata({
   selector: "news",
   template: `
     <div>

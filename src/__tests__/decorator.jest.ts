@@ -8,14 +8,8 @@ describe("Test decorator", () => {
     })
     class TestComponent {}
 
-    const selector = Reflect.getMetadata(
-      "componentMetadata",
-      TestComponent
-    ).selector;
-    const template = Reflect.getMetadata(
-      "componentMetadata",
-      TestComponent
-    ).template;
+    const selector = Reflect.getMetadata("componentMetadata", TestComponent).selector;
+    const template = Reflect.getMetadata("componentMetadata", TestComponent).template;
 
     expect(selector).toBe("test");
     expect(template).toBe("<div>hello</div>");

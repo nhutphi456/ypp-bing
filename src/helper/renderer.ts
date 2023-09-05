@@ -11,81 +11,68 @@ export class Renderer {
     this.htmlParser = new HtmlParser();
   }
 
-  renderRoot(
-    rootComponentSelector: string,
-    declaration: { [key: string]: Component }
-  ): string {
-    document.body.innerHTML = `<${rootComponentSelector}></${rootComponentSelector}>`;
+  renderRoot(rootSelector: string, declaration: { [key: string]: Component }): string {
+    document.body.innerHTML = `<${rootSelector}></${rootSelector}>`;
 
     this.traverse(document.body, declaration);
 
     return document.body.innerHTML;
   }
 
-  private traverse(
-    element: HTMLElement,
-    declaration: { [key: string]: Component }
-  ): void {
+  private traverse(element: HTMLElement, declaration: { [key: string]: Component }): void {
     for (const key in declaration) {
       const elements = element.querySelectorAll(key);
 
       elements.forEach((child: HTMLElement) => {
-        const componentClass =
-          declaration[child.tagName];
-        const componentInstance = new componentClass();
+        const componentClass = declaration[child.tagName];
+        const instance = new componentClass();
         //parse data receive from parent component if any
-        componentInstance.data = JSON.parse(child.getAttribute("data"));
+        instance.data = JSON.parse(child.getAttribute("data"));
 
-        const newChildElement = this.htmlParser.parseToHtmlElement(
-          this.bindData(componentInstance)
-        );
+        const newChildElement = this.htmlParser.parseToHtmlElement(this.bindData(instance));
         this.replaceChild(child, newChildElement);
         this.traverse(newChildElement, declaration);
       });
     }
   }
 
-  private replaceChild(
-    childElement: HTMLElement,
-    newChildElement: HTMLElement
-  ): void {
-    const parentElement = childElement.parentNode;
+  private replaceChild(element: HTMLElement, newElement: HTMLElement): void {
+    const parentElement = element.parentNode;
     //functional program
-    parentElement.appendChild(newChildElement);
-    parentElement.removeChild(childElement);
+    Array.from(newElement.children).forEach((child) => {
+      parentElement.appendChild(child);
+    });
+    parentElement.removeChild(element);
   }
 
-  bindData(componentInstance: InstanceType<Component>): string {
-    const view = this.interpolateText(componentInstance);
-    const componentHtml = this.bindDataToAttribute(componentInstance, view);
+  bindData(instance: InstanceType<Component>): string {
+    const view = this.interpolateText(instance);
+    const componentHtml = this.bindDataToAttribute(instance, view);
     return componentHtml.outerHTML;
   }
 
-  private bindDataToAttribute(
-    componentInstance: InstanceType<Component>,
-    view: string
-  ): HTMLElement {
+  private bindDataToAttribute(instance: InstanceType<Component>, view: string): HTMLElement {
     const componentHtml = this.htmlParser.parseToHtmlElement(view);
 
     const elements = componentHtml.querySelectorAll("[data]");
     elements.forEach((element) => {
       const dataKey = element.getAttribute("data");
-      element.setAttribute("data", JSON.stringify(componentInstance[dataKey]));
+      element.setAttribute("data", JSON.stringify(instance[dataKey]));
     });
 
     return componentHtml;
   }
 
-  private interpolateText(componentInstance: InstanceType<Component>): string {
-    let view = componentInstance.constructor.getMetadata().template;
+  private interpolateText(instance: InstanceType<Component>): string {
+    let view = instance.constructor.getMetadata().template;
 
-    for (const key in componentInstance) {
-      if (typeof componentInstance[key] === "object") {
-        for (const k in componentInstance[key]) {
-          view = view.replace(`{{${key}.${k}}}`, componentInstance[key][k]);
+    for (const key in instance) {
+      if (typeof instance[key] === "object") {
+        for (const k in instance[key]) {
+          view = view.replace(`{{${key}.${k}}}`, instance[key][k]);
         }
       } else {
-        view = view.replace(`{{${key}}}`, componentInstance[key]);
+        view = view.replace(`{{${key}}}`, instance[key]);
       }
     }
 
