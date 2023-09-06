@@ -1,4 +1,3 @@
-// import { NewsComponent } from "../components/news";
 import { BaseComponent } from "../base/component";
 import { AppModule } from "../controller/appModule";
 import { ComponentMetadata } from "../decorator/component";

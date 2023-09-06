@@ -1,6 +1,6 @@
-import { Component } from "../base/component";
 import { ReflectHelper } from "../helper/reflectHelper";
 import { Renderer } from "../helper/renderer";
+import { Component } from "../interfaces/component";
 import { Declaration } from "../types/declaration";
 
 export class AppModule {

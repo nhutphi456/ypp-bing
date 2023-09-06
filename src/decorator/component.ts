@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Component } from "../base/component";
+import { Component } from "../interfaces/component";
 
 export interface IComponentMetadata {
   selector: string;

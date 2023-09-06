@@ -1,14 +1,11 @@
 import { Declaration } from "../types/declaration";
-import { ViewBuilder } from "./viewBuilder";
 import { HtmlParser } from "./htmlParser";
 
 export class Renderer {
   private htmlParser: HtmlParser;
-  private viewBuilder: ViewBuilder;
 
   constructor() {
     this.htmlParser = new HtmlParser();
-    this.viewBuilder = new ViewBuilder();
   }
 
   renderRoot(rootSelector: string, declaration: Declaration): string {
@@ -27,9 +24,7 @@ export class Renderer {
         //parse data receive from parent component if any
         instance.data = JSON.parse(child.getAttribute("data"));
 
-        const newChildElement = this.htmlParser.parseToHtmlElement(
-          this.viewBuilder.bindData(instance)
-        );
+        const newChildElement = this.htmlParser.parseToHtmlElement(instance.render());
         this.replaceChild(child, newChildElement);
         this.traverse(newChildElement, declaration);
       });

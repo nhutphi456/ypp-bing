@@ -1,5 +1,5 @@
-import { Component } from "../base/component";
 import { COMPONENT_META_DATA } from "../constant";
+import { Component } from "../interfaces/component";
 
 export class ReflectHelper {
     constructor(){}
