@@ -2,6 +2,7 @@ import { COMPONENT_META_DATA } from "../constant";
 import { IComponentMetadata } from "../decorator/component";
 import { BindAttributeHandler } from "../helper/bindAttributeHandler";
 import { InterpolationHandler } from "../helper/interpolationHandler";
+import { NgForHandler } from "../helper/ngForHandler";
 import { IViewHandler } from "../interfaces/viewHandler";
 
 export class BaseComponent {
@@ -10,8 +11,9 @@ export class BaseComponent {
   constructor() {
     const interpolationHandler = new InterpolationHandler()
     const bindAttributeHandler = new BindAttributeHandler()
+    const ngForHandler = new NgForHandler()
 
-    interpolationHandler.setNext(bindAttributeHandler)
+    interpolationHandler.setNext(ngForHandler).setNext(bindAttributeHandler)
     
     this.viewHandler = interpolationHandler
   }

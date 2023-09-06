@@ -15,8 +15,4 @@ export abstract class ViewHandler implements IViewHandler {
     return this.nextHandler ? this.nextHandler.handle(instance, view) : null;
   }
 }
-/**
- * p1: interpolate text
- * p2: bind property
- * p3: bind ngfor
- */
+
