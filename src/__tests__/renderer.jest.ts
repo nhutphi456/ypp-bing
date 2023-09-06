@@ -1,9 +1,9 @@
 import { ComponentMetadata } from "../decorator/component";
 import { BaseComponent } from "../base/component";
-import { DataBinder } from "../helper/dataBinder";
+import { ViewBuilder } from "../helper/viewBuilder";
 
 describe("Test renderer class", () => {
-  let dataBinder: DataBinder;
+  let dataBinder: ViewBuilder;
 
   @ComponentMetadata({
     selector: "test-component",
@@ -22,7 +22,7 @@ describe("Test renderer class", () => {
   }
 
   beforeAll(() => {
-    dataBinder = new DataBinder();
+    dataBinder = new ViewBuilder();
   });
   
   it("should replace view", () => {

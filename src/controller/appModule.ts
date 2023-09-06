@@ -15,15 +15,15 @@ export class AppModule {
     this.reflectHelper = new ReflectHelper();
   }
 
-  getDeclaration(): Declaration{
-    return this.declaration
+  getDeclaration(): Declaration {
+    return this.declaration;
   }
 
   declareComponents(...components: Component[]): void {
-    for (const component of components) {
+    components.forEach((component) => {
       const selector = this.reflectHelper.getComponentMetadata(component).selector.toUpperCase();
       this.declaration[selector] = component;
-    }
+    });
   }
 
   setRootComponent(component: Component): void {

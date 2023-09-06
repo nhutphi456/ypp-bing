@@ -8,8 +8,10 @@ export interface Component extends Function {
 
 
 export class BaseComponent {
-  static getMetadata(): IComponentMetadata | undefined {
-    return Reflect.getMetadata(COMPONENT_META_DATA, this);
+  constructor(){}
+  
+  getMetadata(): IComponentMetadata | undefined {
+    return Reflect.getMetadata(COMPONENT_META_DATA, this.constructor);
   }
 }
 
