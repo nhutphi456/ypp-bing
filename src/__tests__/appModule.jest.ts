@@ -128,6 +128,18 @@ describe("Test pass data", () => {
 
 describe("Test pass object data", () => {
   let app: AppModule;
+
+  @ComponentMetadata({
+    selector: "app-root",
+    template:  `
+      <div>
+        Welcome to my app!
+        <parent-component></parent-component>
+      </div>
+    `
+  })
+  class AppComponent extends BaseComponent {}
+
   @ComponentMetadata({
     selector: "parent-component",
     template: `
@@ -155,8 +167,8 @@ describe("Test pass object data", () => {
 
   beforeAll(() => {
     app = new AppModule();
-    app.setRootComponent(ParentComponent);
-    app.declareComponents(ParentComponent, ChildComponent);
+    app.setRootComponent(AppComponent);
+    app.declareComponents(AppComponent, ParentComponent, ChildComponent);
   });
 
   it("should pass data from parent to child component", () => {

@@ -11,13 +11,24 @@ describe("Test render handler", () => {
     selector: "test",
     template: `
       <div data="channel">{{title}}</div>
-      <child-component *ngFor="let item of list" data="item"></child-component>
+      <div>
+        <div>firstName: {{student.name.firstName}}</div>
+        <div>lastName: {{student.name.lastName}}</div>
+      </div>
+      <child-component *ngFor="let item of list" data="item" ></child-component>
     `,
   })
   class TestComponent extends BaseComponent {
     title = "test 1";
     channel = "VTC";
     list = ["item 1", "item 2", "item 3"];
+    student = {
+      name: {
+        firstName: "Jason",
+        lastName: "Hudson"
+      },
+      age: 18
+    }
   }
 
   beforeEach(() => {
@@ -30,9 +41,11 @@ describe("Test render handler", () => {
     const html = htmlParser.parseToHtmlElement(result);
     const children = html.getElementsByTagName("child-component");
 
-    // expect(result).toContain("<div>test 1</div>");
     expect(result).toContain(`<div data="&quot;VTC&quot;">test 1</div>`);
     expect(children.length).toBe(3);
+    expect(result).toContain("<div>firstName: Jason</div>")
+    expect(result).toContain("<div>lastName: Hudson</div>")
+    // expect(result).toBe("");
   });
 });
 

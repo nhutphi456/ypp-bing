@@ -5,7 +5,7 @@ import { InterpolationHandler } from "../helper/interpolationHandler";
 import { NgForHandler } from "../helper/ngForHandler";
 import { IViewHandler } from "../interfaces/viewHandler";
 
-export class BaseComponent {
+export abstract class BaseComponent {
   private viewHandler: IViewHandler
 
   constructor() {

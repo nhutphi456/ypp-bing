@@ -9,18 +9,18 @@ export class BindAttributeHandler extends ViewHandler {
     super();
     this.htmlParser = new HtmlParser();
   }
-  
+
   public handle(instance: InstanceType<Component>, view: string): string {
     const componentHtml = this.htmlParser.parseToHtmlElement(view);
 
     const elements = componentHtml.querySelectorAll("[data]");
     elements.forEach((element) => {
-      const dataKey = element.getAttribute("data");
-      if(!(dataKey in instance)) return
-      element.setAttribute("data", JSON.stringify(instance[dataKey]));
+      const dataProperty = element.getAttribute("data");
+      if (dataProperty in instance) {
+        element.setAttribute("data", JSON.stringify(instance[dataProperty]));
+      }
     });
 
-    // return super.handle(instance, componentHtml.outerHTML);
-    return componentHtml.outerHTML
+    return componentHtml.outerHTML;
   }
 }
