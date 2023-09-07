@@ -1,3 +1,4 @@
+import { NGFOR_ATTRIBUTE } from "../constant";
 import { Component } from "../interfaces/component";
 import { ViewHandler } from "../interfaces/viewHandler";
 import { HtmlParser } from "./htmlParser";
@@ -18,14 +19,14 @@ export class NgForHandler extends ViewHandler {
 
     [...element.children].forEach((child: HTMLElement) => {
       const attributes = child.attributes;
-      const ngForExpression = attributes.getNamedItem("*ngFor");
+      const ngForExpression = attributes.getNamedItem(NGFOR_ATTRIBUTE);
       if (ngForExpression) {
         const dataProperty = this.getDataProperty(ngForExpression);
 
         instance[dataProperty].forEach((item) => {
           const newElement = child.cloneNode(true) as HTMLElement;
           newElement.setAttribute("data", JSON.stringify(item));
-          newElement.removeAttribute("*ngFor");
+          newElement.removeAttribute(NGFOR_ATTRIBUTE);
           element.appendChild(newElement);
           child.remove();
         });

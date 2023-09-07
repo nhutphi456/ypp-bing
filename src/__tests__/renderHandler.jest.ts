@@ -42,9 +42,9 @@ describe("Test render handler", () => {
     const children = html.getElementsByTagName("child-component");
 
     expect(result).toContain(`<div data="&quot;VTC&quot;">test 1</div>`);
-    expect(children.length).toBe(3);
     expect(result).toContain("<div>firstName: Jason</div>")
     expect(result).toContain("<div>lastName: Hudson</div>")
+    expect(children.length).toBe(3);
     // expect(result).toBe("");
   });
 });
@@ -83,7 +83,7 @@ describe("Test NgFor", () => {
     app.declareComponents(ParentComponent, ChildComponent);
   });
 
-  it("should render handler works", () => {
+  it("should ngFor render 3 component", () => {
     const result = app.run()
     const html = htmlParser.parseToHtmlElement(result)
     const childrenItem = html.getElementsByClassName("child-item")

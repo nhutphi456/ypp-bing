@@ -21,6 +21,6 @@ export class BindAttributeHandler extends ViewHandler {
       }
     });
 
-    return componentHtml.outerHTML;
+    return super.handle(instance, componentHtml.outerHTML);
   }
 }
