@@ -25,10 +25,10 @@ describe("Test render handler", () => {
     student = {
       name: {
         firstName: "Jason",
-        lastName: "Hudson"
+        lastName: "Hudson",
       },
-      age: 18
-    }
+      age: 18,
+    };
   }
 
   beforeEach(() => {
@@ -42,15 +42,15 @@ describe("Test render handler", () => {
     const children = html.getElementsByTagName("child-component");
 
     expect(result).toContain(`<div data="&quot;VTC&quot;">test 1</div>`);
-    expect(result).toContain("<div>firstName: Jason</div>")
-    expect(result).toContain("<div>lastName: Hudson</div>")
+    expect(result).toContain("<div>firstName: Jason</div>");
+    expect(result).toContain("<div>lastName: Hudson</div>");
     expect(children.length).toBe(3);
     // expect(result).toBe("");
   });
 });
 
 describe("Test NgFor", () => {
-  let app: AppModule, htmlParser: HtmlParser
+  let app: AppModule, htmlParser: HtmlParser;
 
   @ComponentMetadata({
     selector: "parent-component",
@@ -76,7 +76,7 @@ describe("Test NgFor", () => {
   }
 
   beforeEach(() => {
-    htmlParser = new HtmlParser()
+    htmlParser = new HtmlParser();
 
     app = new AppModule();
     app.setRootComponent(ParentComponent);
@@ -84,13 +84,56 @@ describe("Test NgFor", () => {
   });
 
   it("should ngFor render 3 component", () => {
-    const result = app.run()
-    const html = htmlParser.parseToHtmlElement(result)
-    const childrenItem = html.getElementsByClassName("child-item")
+    const result = app.run();
+    const html = htmlParser.parseToHtmlElement(result);
+    const childrenItem = html.getElementsByClassName("child-item");
 
-    expect(childrenItem.length).toEqual(3)
-    expect(childrenItem[0].innerHTML).toBe("item 1")
-    expect(childrenItem[1].innerHTML).toBe("item 2")
-    expect(childrenItem[2].innerHTML).toBe("item 3")
+    expect(childrenItem.length).toEqual(3);
+    expect(childrenItem[0].innerHTML).toBe("item 1");
+    expect(childrenItem[1].innerHTML).toBe("item 2");
+    expect(childrenItem[2].innerHTML).toBe("item 3");
+  });
+});
+
+describe("Test news list", () => {
+  const app = new AppModule();
+
+  @ComponentMetadata({
+    selector: "news-list",
+    template: `
+      <div>News List</div>
+      <news *ngFor="let item of newsList" data="item"></news>
+    `,
+  })
+  class NewsListComponent extends BaseComponent {
+    newsList = [
+      {
+        title: "news 1",
+        image: "hhh",
+      },
+      {
+        title: "news 2",
+        image: "hhhh",
+      },
+    ];
+  }
+  @ComponentMetadata({
+    selector: "news",
+    template: `
+      <div>{{data.title}}</div>
+      <img src={{data.image}}/>
+    `,
+  })
+  class NewsComponent extends BaseComponent {
+    data;
+  }
+
+  beforeAll(() => {
+    app.setRootComponent(NewsListComponent);
+    app.declareComponents(NewsListComponent, NewsComponent);
+  });
+  it("should render news list", () => {
+    const result = app.run();
+    expect(result).toBe("");
   });
 });

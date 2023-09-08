@@ -2,9 +2,9 @@ import { BaseComponent } from "../base/component";
 import { ComponentMetadata } from "../decorator/component";
 
 @ComponentMetadata({
-  selector: "channel",
-  template: "<span>{{name}}</span>",
+    selector: "sport",
+    template: "<div>Hello from sport</div>"
 })
-export class ChannelComponent extends BaseComponent {
-  name = "VTC";
+export class SportComponent extends BaseComponent {
+    
 }

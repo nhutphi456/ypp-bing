@@ -1,4 +1,4 @@
-import { Service } from "../controller/appModule";
+import { bootstrap } from "../base/injector";
 import { Declaration } from "../types/declaration";
 import { HtmlParser } from "./htmlParser";
 
@@ -9,25 +9,27 @@ export class Renderer {
     this.htmlParser = new HtmlParser();
   }
 
-  renderRoot(rootSelector: string, declaration: Declaration, services: Service[]): string {
+  renderRoot(rootSelector: string, declaration: Declaration): string {
     document.body.innerHTML = `<${rootSelector}></${rootSelector}>`;
-    this.traverse(document.body, declaration, services);
+    this.traverse(document.body, declaration);
     return document.body.innerHTML;
   }
 
-  private traverse(element: HTMLElement, declaration: Declaration, services: Service[]): void {
+  private traverse(element: HTMLElement, declaration: Declaration): void {
+    console.log("tagName" + element.tagName)
+    console.log({ element });
     for (const key in declaration) {
       const elements = element.querySelectorAll(key);
 
       elements.forEach((child: HTMLElement) => {
         const componentClass = declaration[child.tagName];
-        const instance = new componentClass(...services);
+        const instance = bootstrap(componentClass);
         //parse data receive from parent component if any
         instance.data = JSON.parse(child.getAttribute("data"));
 
         const newChildElement = this.htmlParser.parseToHtmlElement(instance.render());
         this.replaceChild(child, newChildElement);
-        this.traverse(newChildElement, declaration, services);
+        this.traverse(newChildElement, declaration);
       });
     }
   }

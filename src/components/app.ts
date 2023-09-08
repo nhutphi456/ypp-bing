@@ -1,3 +1,4 @@
+import { BaseComponent } from "../base/component";
 import { ComponentMetadata } from "../decorator/component";
 
 @ComponentMetadata({
@@ -5,9 +6,11 @@ import { ComponentMetadata } from "../decorator/component";
   template: `
     <div>
         Welcome to my app!
-        <news></news>
-        <news></news>
+        <sport></sport>
+        <finance></finance>
+        <channel></channel>
+        <news-list></news-list>
     </div>
   `,
 })
-export class AppComponent {}
+export class AppComponent extends BaseComponent {}
