@@ -16,8 +16,6 @@ export class Renderer {
   }
 
   private traverse(element: HTMLElement, declaration: Declaration): void {
-    console.log("tagName" + element.tagName)
-    console.log({ element });
     for (const key in declaration) {
       const elements = element.querySelectorAll(key);
 

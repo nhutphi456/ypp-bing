@@ -4,6 +4,7 @@ import { Renderer } from "../helper/renderer";
 import { Component } from "../interfaces/component";
 import { Declaration } from "../types/declaration";
 /* eslint-disable  @typescript-eslint/no-explicit-any */
+
 export interface Service extends Function {
   new (...args: any[]);
 }
