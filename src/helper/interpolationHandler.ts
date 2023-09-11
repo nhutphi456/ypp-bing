@@ -14,7 +14,7 @@ export class InterpolationHandler extends ViewHandler {
         value = value[k];
         if (value === undefined) return match; // Return the placeholder if the value is undefined
       }
-      return value; // Ensure the value is treated as a string
+      return value;
     });
 
     return super.handle(instance, view);

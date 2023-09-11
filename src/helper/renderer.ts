@@ -15,11 +15,10 @@ export class Renderer {
       const elements = element.querySelectorAll(key);
       
       elements.forEach((element: HTMLElement) => {
-        console.log("rendererTagName " + element.tagName)
         const componentClass = declaration[element.tagName];
         const instance = bootstrap(componentClass);
         //parse data receive from parent component if any
-        instance.data = JSON.parse(element.getAttribute("data"));
+        instance.data = JSON.parse(element.getAttribute("data") ?? "{}");
 
         element.outerHTML = instance.render();
 
