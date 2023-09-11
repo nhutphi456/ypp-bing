@@ -8,5 +8,5 @@ import { ComponentMetadata } from "../decorator/component";
     `
 })
 export class FinanceComponent extends BaseComponent {
-
+    title: "hello"
 }

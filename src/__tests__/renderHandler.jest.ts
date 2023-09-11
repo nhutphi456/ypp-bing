@@ -134,6 +134,6 @@ describe("Test news list", () => {
   });
   it("should render news list", () => {
     const result = app.run();
-    expect(result).toBe("");
+    expect(result).toBeTruthy();
   });
 });

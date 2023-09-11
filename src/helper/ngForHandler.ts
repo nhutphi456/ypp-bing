@@ -1,46 +1,43 @@
 import { NGFOR_ATTRIBUTE } from "../constant";
 import { Component } from "../interfaces/component";
 import { ViewHandler } from "../interfaces/viewHandler";
-import { HtmlParser } from "./htmlParser";
+import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 
 export class NgForHandler extends ViewHandler {
-  private htmlParser: HtmlParser;
-
   constructor() {
     super();
-    this.htmlParser = new HtmlParser();
   }
 
   public handle(instance: InstanceType<Component>, view: string): string {
     //1. detect ngFor
     //2. loop through data and create selector
     //3. bind data to that selector
-    const element = this.htmlParser.parseToHtmlElement(view);
-    
+    const element = parseToHtmlElement(view);
+    this.bindNgFor(element, instance)
+    view = element.outerHTML;
+    return super.handle(instance, view);
+  }
+
+  private bindNgFor(element: HTMLElement, instance: InstanceType<Component>): void {
     [...element.children].forEach((child: HTMLElement) => {
-      console.log({child})
       const attributes = child.attributes;
-      console.log({ attributes });
       const ngForExpression = attributes.getNamedItem(NGFOR_ATTRIBUTE);
-      console.log({ ngForExpression });
+
       if (ngForExpression) {
         const dataProperty = this.getDataProperty(ngForExpression);
 
         instance[dataProperty].forEach((item) => {
           const newElement = child.cloneNode(true) as HTMLElement;
-          newElement.setAttribute("data", JSON.stringify(item || {}));
+
+          newElement.setAttribute("data", JSON.stringify(item));
           newElement.removeAttribute(NGFOR_ATTRIBUTE);
           element.appendChild(newElement);
           child.remove();
-          console.log({ newElement });
         });
       }
+
+      this.bindNgFor(child, instance);
     });
-
-    view = element.outerHTML;
-    console.log("ngfor run");
-
-    return super.handle(instance, view);
   }
 
   /**

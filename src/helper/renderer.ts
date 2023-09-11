@@ -18,27 +18,20 @@ export class Renderer {
   private traverse(element: HTMLElement, declaration: Declaration): void {
     for (const key in declaration) {
       const elements = element.querySelectorAll(key);
-
-      elements.forEach((child: HTMLElement) => {
-        const componentClass = declaration[child.tagName];
+      
+      elements.forEach((element: HTMLElement) => {
+        console.log("rendererTagName " + element.tagName)
+        const componentClass = declaration[element.tagName];
         const instance = bootstrap(componentClass);
         //parse data receive from parent component if any
-        instance.data = JSON.parse(child.getAttribute("data"));
+        instance.data = JSON.parse(element.getAttribute("data"));
 
-        const newChildElement = this.htmlParser.parseToHtmlElement(instance.render());
-        this.replaceChild(child, newChildElement);
-        this.traverse(newChildElement, declaration);
+        element.outerHTML = instance.render();
+
+        [...element.children].forEach((child: HTMLElement) => {
+          this.traverse(child, declaration);
+        });
       });
     }
-  }
-
-  private replaceChild(element: HTMLElement, newElement: HTMLElement): void {
-    const parentElement = element.parentNode;
-
-    [...newElement.children].forEach((child) => {
-      parentElement.appendChild(child);
-    });
-
-    parentElement.removeChild(element);
   }
 }

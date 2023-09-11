@@ -1,3 +1,4 @@
+import { AdsComponent } from "./components/ads";
 import { AppComponent } from "./components/app";
 import { ChannelComponent } from "./components/channel";
 import { FinanceComponent } from "./components/finance";
@@ -10,6 +11,6 @@ const app = new AppModule();
 
 app.setRootComponent(AppComponent);
 
-app.declareComponents(AppComponent, NewsList, NewsComponent, ChannelComponent, FinanceComponent, SportComponent);
+app.declareComponents(AppComponent, NewsList, NewsComponent, ChannelComponent, FinanceComponent, SportComponent, AdsComponent);
 
 app.run()

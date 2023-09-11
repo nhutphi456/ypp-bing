@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint . --ext .ts",
-    "build": "tsc && npx webpack"
+    "build": "tsc && npx webpack",
+    "watch": "webpack --mode development --watch"
   },
   "author": "",
   "license": "ISC",

@@ -1,17 +1,14 @@
 import { Component } from "../interfaces/component";
 import { ViewHandler } from "../interfaces/viewHandler";
-import { HtmlParser } from "./htmlParser";
+import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 
 export class BindAttributeHandler extends ViewHandler {
-  private htmlParser: HtmlParser;
-
   constructor() {
     super();
-    this.htmlParser = new HtmlParser();
   }
 
   public handle(instance: InstanceType<Component>, view: string): string {
-    const componentHtml = this.htmlParser.parseToHtmlElement(view);
+    const componentHtml = parseToHtmlElement(view);
 
     const elements = componentHtml.querySelectorAll("[data]");
     elements.forEach((element) => {
