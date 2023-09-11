@@ -2,12 +2,9 @@ import { COMPONENT_META_DATA } from "../constant";
 import { ReflectHelper } from "../helper/reflectHelper";
 import { Renderer } from "../helper/renderer";
 import { Component } from "../interfaces/component";
+import { Service } from "../interfaces/service";
 import { Declaration } from "../types/declaration";
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 
-export interface Service extends Function {
-  new (...args: any[]);
-}
 export class AppModule {
   private declaration: Declaration;
   private rootComponent: Component;
@@ -27,11 +24,12 @@ export class AppModule {
   }
 
   declareServices(...services: Service[]): void {
-    this.providers = [...this.providers, ...services];
+    this.providers = [...new Set([...this.providers, ...services])];
+
     for (const key in this.declaration) {
       const target = this.reflectHelper.getComponentMetadata(this.declaration[key]);
       let serviceList = target.provider || [];
-      serviceList = [...serviceList, ...this.providers];
+      serviceList = [...new Set([...serviceList, ...this.providers])];
       Reflect.defineMetadata(
         COMPONENT_META_DATA,
         {

@@ -28,7 +28,7 @@ export class NgIfHandler extends ViewHandler {
       }
     });
 
-    view = element.outerHTML;
+    view = element.innerHTML;
 
     return view;
   }

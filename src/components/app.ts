@@ -5,11 +5,12 @@ import { ComponentMetadata } from "../decorator/component";
   selector: "app-root",
   template: `
     <div>
-        Welcome to my app!
-        <sport></sport>
-        <finance></finance>
-        <channel></channel>
-        <news-list></news-list>
+      Welcome to my app!
+      <sport></sport>
+      <finance></finance>
+      <channel></channel>
+      <news></news>
+      <news-list></news-list>
     </div>
   `,
 })

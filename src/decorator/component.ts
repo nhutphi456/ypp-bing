@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { Component } from "../interfaces/component";
-import { Service } from "../controller/appModule";
+import { Service } from "../interfaces/service";
 
 export interface IComponentMetadata {
   selector: string;

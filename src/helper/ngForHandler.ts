@@ -14,7 +14,7 @@ export class NgForHandler extends ViewHandler {
     //3. bind data to that selector
     const element = parseToHtmlElement(view);
     this.bindNgFor(element, instance)
-    view = element.outerHTML;
+    view = element.innerHTML;
     return super.handle(instance, view);
   }
 

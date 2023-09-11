@@ -18,6 +18,6 @@ export class BindAttributeHandler extends ViewHandler {
       }
     });
 
-    return super.handle(instance, componentHtml.outerHTML);
+    return super.handle(instance, componentHtml.innerHTML);
   }
 }

@@ -22,13 +22,13 @@ describe("test service", () => {
       this.title = testService.getNews();
     }
   }
-  it("should work", () => {
+  it("should injector work", () => {
     app.setRootComponent(TestComponent)
     app.declareComponents(TestComponent)
     app.declareServices(TestService)
     
-   app.run()
+    const result = app.run()
 
-    expect(1).toBe(1);
+    expect(result).toBe("<div>news 1</div>");
   });
 });
