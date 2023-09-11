@@ -1,13 +1,8 @@
 import { bootstrap } from "../base/injector";
 import { Declaration } from "../types/declaration";
-import { HtmlParser } from "./htmlParser";
 
 export class Renderer {
-  private htmlParser: HtmlParser;
-
-  constructor() {
-    this.htmlParser = new HtmlParser();
-  }
+  constructor() {}
 
   renderRoot(rootSelector: string, declaration: Declaration): string {
     document.body.innerHTML = `<${rootSelector}></${rootSelector}>`;

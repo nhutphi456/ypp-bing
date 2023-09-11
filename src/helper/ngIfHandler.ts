@@ -1,16 +1,14 @@
 import { NGIF_ATTRIBUTE } from "../constant";
 import { Component } from "../interfaces/component";
 import { ViewHandler } from "../interfaces/viewHandler";
-import { HtmlParser } from "./htmlParser";
+import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 
 export class NgIfHandler extends ViewHandler {
-  private htmlParser: HtmlParser;
   constructor() {
     super();
-    this.htmlParser = new HtmlParser();
   }
   public handle(instance: InstanceType<Component>, view: string): string {
-    const element = this.htmlParser.parseToHtmlElement(view);
+    const element = parseToHtmlElement(view);
 
     [...element.children].forEach((child: HTMLElement) => {
       const attributes = child.attributes;

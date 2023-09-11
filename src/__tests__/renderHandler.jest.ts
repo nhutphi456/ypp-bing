@@ -1,11 +1,10 @@
 import { BaseComponent } from "../base/component";
 import { AppModule } from "../controller/appModule";
 import { ComponentMetadata } from "../decorator/component";
-import { HtmlParser } from "../helper/htmlParser";
+import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 
 describe("Test render handler", () => {
   let testComponent: TestComponent;
-  let htmlParser: HtmlParser;
 
   @ComponentMetadata({
     selector: "test",
@@ -33,12 +32,11 @@ describe("Test render handler", () => {
 
   beforeEach(() => {
     testComponent = new TestComponent();
-    htmlParser = new HtmlParser();
   });
 
   it("should render handler works", () => {
     const result = testComponent.render();
-    const html = htmlParser.parseToHtmlElement(result);
+    const html = parseToHtmlElement(result);
     const children = html.getElementsByTagName("child-component");
 
     expect(result).toContain(`<div data="&quot;VTC&quot;">test 1</div>`);
@@ -50,7 +48,7 @@ describe("Test render handler", () => {
 });
 
 describe("Test NgFor", () => {
-  let app: AppModule, htmlParser: HtmlParser;
+  let app: AppModule;
 
   @ComponentMetadata({
     selector: "parent-component",
@@ -76,8 +74,6 @@ describe("Test NgFor", () => {
   }
 
   beforeEach(() => {
-    htmlParser = new HtmlParser();
-
     app = new AppModule();
     app.setRootComponent(ParentComponent);
     app.declareComponents(ParentComponent, ChildComponent);
@@ -85,7 +81,7 @@ describe("Test NgFor", () => {
 
   it("should ngFor render 3 component", () => {
     const result = app.run();
-    const html = htmlParser.parseToHtmlElement(result);
+    const html = parseToHtmlElement(result);
     const childrenItem = html.getElementsByClassName("child-item");
 
     expect(childrenItem.length).toEqual(3);
