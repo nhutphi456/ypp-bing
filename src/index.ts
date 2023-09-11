@@ -12,7 +12,15 @@ const app = new AppModule();
 
 app.setRootComponent(AppComponent);
 
-app.declareComponents(AppComponent, NewsList, NewsComponent, ChannelComponent, FinanceComponent, SportComponent, AdsComponent);
-app.declareServices(NewsService)
+app.declareComponents(
+  AppComponent,
+  NewsList,
+  NewsComponent,
+  ChannelComponent,
+  FinanceComponent,
+  SportComponent,
+  AdsComponent
+);
+app.declareServices(NewsService);
 
-app.run()
+app.run();
