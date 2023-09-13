@@ -6,54 +6,47 @@ import { Service } from "../interfaces/service";
 import { Declaration } from "../types/declaration";
 
 export class AppModule {
-  private declaration: Declaration;
-  private rootComponent: Component;
-  private renderer: Renderer;
-  private reflectHelper: ReflectHelper;
-  providers: Service[];
+  static declaration: Declaration = {};
+  static rootComponent: Component;
+  static renderer: Renderer = new Renderer();
+  static reflectHelper: ReflectHelper = new ReflectHelper();
+  static providers: Service[] = [];
 
-  constructor() {
-    this.providers = [];
-    this.declaration = {};
-    this.renderer = new Renderer();
-    this.reflectHelper = new ReflectHelper();
+  static getDeclaration(): Declaration {
+    return AppModule.declaration;
   }
 
-  getDeclaration(): Declaration {
-    return this.declaration;
-  }
+  static declareServices(...services: Service[]): void {
+    AppModule.providers = [...new Set([...AppModule.providers, ...services])];
 
-  declareServices(...services: Service[]): void {
-    this.providers = [...new Set([...this.providers, ...services])];
-
-    for (const key in this.declaration) {
-      const target = this.reflectHelper.getComponentMetadata(this.declaration[key]);
+    for (const key in AppModule.declaration) {
+      const target = AppModule.reflectHelper.getComponentMetadata(AppModule.declaration[key]);
       let serviceList = target.provider || [];
-      serviceList = [...new Set([...serviceList, ...this.providers])];
+      serviceList = [...new Set([...serviceList, ...AppModule.providers])];
       Reflect.defineMetadata(
         COMPONENT_META_DATA,
         {
           ...target,
           provider: serviceList,
         },
-        this.declaration[key]
+        AppModule.declaration[key]
       );
     }
   }
 
-  declareComponents(...components: Component[]): void {
+  static declareComponents(...components: Component[]): void {
     components.forEach((component) => {
-      const selector = this.reflectHelper.getComponentMetadata(component).selector.toUpperCase();
-      this.declaration[selector] = component;
+      const selector = AppModule.reflectHelper.getComponentMetadata(component).selector.toUpperCase();
+      AppModule.declaration[selector] = component;
     });
   }
 
-  setRootComponent(component: Component): void {
-    this.rootComponent = component;
+  static setRootComponent(component: Component): void {
+    AppModule.rootComponent = component;
   }
 
-  run(): string {
-    const rootSelector = this.reflectHelper.getComponentMetadata(this.rootComponent).selector;
-    return this.renderer.renderRoot(rootSelector, this.declaration);
+  static run(): string {
+    const rootSelector = AppModule.reflectHelper.getComponentMetadata(AppModule.rootComponent).selector;
+    return AppModule.renderer.renderRoot(rootSelector, AppModule.declaration);
   }
 }

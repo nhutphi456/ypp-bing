@@ -25,7 +25,7 @@ export class NgForHandler extends ViewHandler {
 
       if (ngForExpression) {
         const dataProperty = this.getDataProperty(ngForExpression);
-
+        
         instance[dataProperty].forEach((item) => {
           const newElement = child.cloneNode(true) as HTMLElement;
 

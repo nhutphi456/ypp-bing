@@ -7,20 +7,26 @@ import { NewsList } from "./components/newsList";
 import { SportComponent } from "./components/sport";
 import { AppModule } from "./controller/appModule";
 import { NewsService } from "./services/newsService";
+import { parseToHtmlElement } from "./utils/parsetoHtmlElement";
 
-const app = new AppModule();
 
-app.setRootComponent(AppComponent);
+AppModule.setRootComponent(AppComponent);
 
-app.declareComponents(
+AppModule.declareComponents(
   AppComponent,
   NewsList,
   NewsComponent,
   ChannelComponent,
   FinanceComponent,
   SportComponent,
-  AdsComponent
+  AdsComponent,
 );
-app.declareServices(NewsService);
 
-app.run();
+AppModule.declareServices(NewsService);
+
+// AppModule.run();
+
+const appEl = parseToHtmlElement("<app-root></app-root>").firstChild as HTMLElement;
+
+AppModule.renderer.render(appEl, document.getElementById("app"));
+

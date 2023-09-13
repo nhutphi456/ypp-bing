@@ -1,5 +1,7 @@
 import { bootstrap } from "../base/injector";
+import { AppModule } from "../controller/appModule";
 import { Declaration } from "../types/declaration";
+import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 
 export class Renderer {
   constructor() {}
@@ -13,7 +15,7 @@ export class Renderer {
   private traverse(element: HTMLElement, declaration: Declaration): void {
     for (const key in declaration) {
       const elements = element.querySelectorAll(key);
-      
+
       elements.forEach((element: HTMLElement) => {
         const componentClass = declaration[element.tagName];
         const instance = bootstrap(componentClass);
@@ -25,6 +27,32 @@ export class Renderer {
         [...element.children].forEach((child: HTMLElement) => {
           this.traverse(child, declaration);
         });
+      });
+    }
+  }
+
+  render(el: HTMLElement, container: HTMLElement) {
+    const componentClass = AppModule.declaration[el.tagName];
+
+    if (componentClass) {
+      const instance = bootstrap(componentClass);
+
+      instance.data = JSON.parse(el.getAttribute("data") ?? "{}");
+
+      console.log({ instance });
+      const newEl = parseToHtmlElement(instance.render());
+
+      el.remove();
+
+      [...newEl.children].forEach((child: HTMLElement) => {
+        container.appendChild(child);
+        [...child.children].forEach((e: HTMLElement) => {
+          this.render(e, child);
+        });
+      });
+    } else {
+      [...el.children].forEach((e: HTMLElement) => {
+        this.render(e, el);
       });
     }
   }

@@ -29,6 +29,10 @@ export class NewsList extends BaseComponent {
     this.fetchNews();
   }
 
+  async onInit() {
+    await this.fetchNews();
+  }
+
   async fetchNews(): Promise<void> {
     this.newsList = await this.newsService.getNews();
     // console.log(this.newsList)
