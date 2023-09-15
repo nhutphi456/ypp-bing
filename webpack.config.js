@@ -18,5 +18,6 @@ module.exports = {
             },
         ],
     },
-    watch: true
+    watch: true,
+    devtool: 'cheap-module-source-map',
 };
