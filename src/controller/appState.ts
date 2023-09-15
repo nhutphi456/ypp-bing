@@ -22,17 +22,14 @@ export class AppState {
     return this.stateSubject.asObservable();
   }
 
-  add(instance): void {
-    const stateKey = instance.getMetadata().selector;
-    this.state[stateKey] = instance;
-    // this.stateSubject.next({ ...this.state });
-  }
+  addState(promise, key) {
+    if (key in this.state) return this.state[key];
 
-  update(instance): void {
-    const stateKey = instance.getMetadata().selector;
-    this.stateSubject.next({
-      ...this.state,
-      [stateKey]: instance,
+    promise.then((data) => {
+      this.state = { ...this.state, [key]: data };
+      this.stateSubject.next(this.state);
+
+      return this.state[key];
     });
   }
 }

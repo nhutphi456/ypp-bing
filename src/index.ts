@@ -32,9 +32,6 @@ app.run();
 appState
   .getStateSubject()
   // .pipe(skip(1))
-  .subscribe((x) => {
-    console.log({ x1: x });
+  .subscribe(() => {
     app.run();
   });
-
-// subscription.unsubscribe()

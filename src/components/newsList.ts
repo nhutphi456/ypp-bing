@@ -17,18 +17,19 @@ import { lastValueFrom } from "rxjs";
   `,
 })
 export class NewsList extends BaseComponent {
-  newsList = [
-    
-  ];
+  newsList = this.appState.addState(this.fetchNews(), "newsList") || []
 
   constructor(private newsService: NewsService) {
-    super(); 
-    this.fetchNews()
+    super();
   }
 
   async fetchNews(): Promise<void> {
     const newsObs = this.newsService.getNews();
-    this.newsList = await lastValueFrom(newsObs);
-    this.appState.update(this)
+    return lastValueFrom(newsObs);
   }
 }
+
+/**
+ * newsList = createResource(action, "newsList")
+ *
+ */

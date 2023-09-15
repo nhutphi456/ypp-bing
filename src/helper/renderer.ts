@@ -21,30 +21,13 @@ export class Renderer {
         const instance = bootstrap(componentClass);
         //parse data receive from parent component if any
         instance.data = JSON.parse(element.getAttribute("data") ?? "{}");
-        
-        const ins = this.check(instance)
-        
-        element.outerHTML = ins.render();
+
+        element.outerHTML = instance.render();
 
         [...element.children].forEach((child: HTMLElement) => {
           this.traverse(child, declaration);
         });
       });
     }
-  }
-
-  private check(instance) {
-    const instanceKey = instance.getMetadata().selector;
-    const state = this.appState.getState();
-    console.log({instance, state})
-
-    if (instanceKey in state) { 
-      console.log("get old state run")
-      return state[instanceKey];
-    }
-
-    this.appState.add(instance);
-
-    return instance;
   }
 }
