@@ -18,7 +18,7 @@ export class AppState {
     return this.stateSubject.asObservable();
   }
 
-  addState(promise, key){
+  addState<T = unknown>(promise: Promise<T>, key: string): T {
     if (key in this.state) return this.state[key];
     
     promise.then((data) => {

@@ -22,7 +22,7 @@ export class NewsList extends BaseComponent {
     super();
   }
 
-  async fetchNews(): Promise<void> {
+  async fetchNews(): Promise<unknown> {
     return this.newsService.getNews();
   }
 }
