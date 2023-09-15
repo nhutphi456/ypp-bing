@@ -27,11 +27,10 @@ app.declareComponents(
 );
 app.declareServices(NewsService);
 
-app.run();
-
 appState
   .getStateSubject()
   // .pipe(skip(1))
-  .subscribe(() => {
+  .subscribe((state) => {
+    console.log({ state });
     app.run();
   });

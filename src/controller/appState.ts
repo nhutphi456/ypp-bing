@@ -1,4 +1,4 @@
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 export class AppState {
   private static instance: AppState;
@@ -14,17 +14,13 @@ export class AppState {
     return AppState.instance;
   }
 
-  getState() {
-    return this.state;
-  }
-
-  getStateSubject() {
+  getStateSubject(): Observable<unknown> {
     return this.stateSubject.asObservable();
   }
 
-  addState(promise, key) {
+  addState<T>(promise: Promise<T>, key: string): T {
     if (key in this.state) return this.state[key];
-
+    
     promise.then((data) => {
       this.state = { ...this.state, [key]: data };
       this.stateSubject.next(this.state);
