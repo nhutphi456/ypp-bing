@@ -3,7 +3,6 @@ import { ComponentMetadata } from "../decorator/component";
 // import { News } from "../models/news";
 import { NewsService } from "../services/newsService";
 
-import { lastValueFrom } from "rxjs";
 
 @ComponentMetadata({
   selector: "news-list",
@@ -17,19 +16,13 @@ import { lastValueFrom } from "rxjs";
   `,
 })
 export class NewsList extends BaseComponent {
-  newsList = this.appState.addState(this.fetchNews(), "newsList") || []
-  
+  newsList = this.appState.addState(this.fetchNews(), "newsList") || [];
+
   constructor(private newsService: NewsService) {
     super();
   }
 
   async fetchNews(): Promise<void> {
-    const newsObs = this.newsService.getNews();
-    return lastValueFrom(newsObs);
+    return this.newsService.getNews();
   }
 }
-
-/**
- * newsList = createResource(action, "newsList")
- *
- */

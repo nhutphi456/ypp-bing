@@ -12,7 +12,6 @@ const appTemplate = `
   </div>
 `;
 
-
 @ComponentMetadata({
   selector: "app-root",
   template: appTemplate,
