@@ -12,9 +12,12 @@ export class BindAttributeHandler extends ViewHandler {
 
     const elements = componentHtml.querySelectorAll("[data]");
     elements.forEach((element) => {
-      const dataProperty = element.getAttribute("data");
-      if (dataProperty in instance) {
-        element.setAttribute("data", JSON.stringify(instance[dataProperty]));
+      const dataAttrValue = element.getAttribute("data");
+      const keys = dataAttrValue.split(".")
+      
+      if(keys[0] in instance) {
+        const value = eval(`instance.${dataAttrValue}`)
+        element.setAttribute("data", JSON.stringify(value))
       }
     });
 

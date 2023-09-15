@@ -1,6 +1,7 @@
 import { bootstrap } from "../base/injector";
 import { AppState } from "../controller/appState";
 import { Declaration } from "../types/declaration";
+import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 
 export class Renderer {
   private appState = AppState.getInstance();
@@ -8,7 +9,8 @@ export class Renderer {
 
   renderRoot(rootSelector: string, declaration: Declaration): string {
     document.body.innerHTML = `<${rootSelector}></${rootSelector}>`;
-    this.traverse(document.body, declaration);
+    // this.traverse(document.body, declaration);
+    this.traverse2(document.body, declaration);
     return document.body.innerHTML;
   }
 
@@ -27,6 +29,28 @@ export class Renderer {
         [...element.children].forEach((child: HTMLElement) => {
           this.traverse(child, declaration);
         });
+      });
+    }
+  }
+
+  private traverse2(element: HTMLElement, declaration: Declaration): void {
+    if (element.tagName in declaration) {
+      const componentClass = declaration[element.tagName];
+      const instance = bootstrap(componentClass);
+      instance.data = JSON.parse(element.getAttribute("data") ?? "{}");
+
+      const newEl = parseToHtmlElement(instance.render());
+      const parent = element.parentNode;
+
+      parent.appendChild(newEl);
+      parent.removeChild(element);
+
+      [...newEl.children].forEach((child: HTMLElement) => {
+        this.traverse2(child, declaration);
+      });
+    } else {
+      [...element.children].forEach((el: HTMLElement) => {
+        this.traverse2(el, declaration);
       });
     }
   }

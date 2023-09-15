@@ -4,8 +4,8 @@ import { ComponentMetadata } from "../decorator/component";
 @ComponentMetadata({
   selector: "finance",
   template: `
-        <div>Hello from {{title}}</div>
         <channel></channel>
+        <div>Hello from {{title}}</div>
     `,
 })
 export class FinanceComponent extends BaseComponent {
@@ -17,7 +17,7 @@ export class FinanceComponent extends BaseComponent {
 
   getTitle() {
     return new Promise<string>((resolve) => {
-      setTimeout(() => resolve("Test 2"), 1000);
+      setTimeout(() => resolve("finance 2"), 1000);
     });
   }
 }
