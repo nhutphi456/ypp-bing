@@ -9,4 +9,14 @@ import { ComponentMetadata } from "../decorator/component";
 })
 export class FinanceComponent extends BaseComponent {
     title: "hello"
+
+    constructor(){
+      super()
+    }
+
+    getTitle() {
+      return new Promise<string>((resolve) => {
+        setTimeout(() => resolve("Test 2"), 1000);
+      });
+    }
 }

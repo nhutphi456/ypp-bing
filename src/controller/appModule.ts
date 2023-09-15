@@ -4,6 +4,7 @@ import { Renderer } from "../helper/renderer";
 import { Component } from "../interfaces/component";
 import { Service } from "../interfaces/service";
 import { Declaration } from "../types/declaration";
+import { AppState } from "./appState";
 
 export class AppModule {
   private declaration: Declaration;
@@ -11,6 +12,7 @@ export class AppModule {
   private renderer: Renderer;
   private reflectHelper: ReflectHelper;
   providers: Service[];
+  appState = AppState.getInstance()
 
   constructor() {
     this.providers = [];
@@ -54,6 +56,9 @@ export class AppModule {
 
   run(): string {
     const rootSelector = this.reflectHelper.getComponentMetadata(this.rootComponent).selector;
-    return this.renderer.renderRoot(rootSelector, this.declaration);
+    const app = this.renderer.renderRoot(rootSelector, this.declaration);
+    console.log('done render')
+    
+    return app
   }
 }

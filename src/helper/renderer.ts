@@ -1,7 +1,9 @@
 import { bootstrap } from "../base/injector";
+import { AppState } from "../controller/appState";
 import { Declaration } from "../types/declaration";
 
 export class Renderer {
+  private appState = AppState.getInstance();
   constructor() {}
 
   renderRoot(rootSelector: string, declaration: Declaration): string {
@@ -13,19 +15,36 @@ export class Renderer {
   private traverse(element: HTMLElement, declaration: Declaration): void {
     for (const key in declaration) {
       const elements = element.querySelectorAll(key);
-      
+
       elements.forEach((element: HTMLElement) => {
         const componentClass = declaration[element.tagName];
         const instance = bootstrap(componentClass);
         //parse data receive from parent component if any
         instance.data = JSON.parse(element.getAttribute("data") ?? "{}");
-
-        element.outerHTML = instance.render();
+        
+        const ins = this.check(instance)
+        
+        element.outerHTML = ins.render();
 
         [...element.children].forEach((child: HTMLElement) => {
           this.traverse(child, declaration);
         });
       });
     }
+  }
+
+  private check(instance) {
+    const instanceKey = instance.getMetadata().selector;
+    const state = this.appState.getState();
+    console.log({instance, state})
+
+    if (instanceKey in state) { 
+      console.log("get old state run")
+      return state[instanceKey];
+    }
+
+    this.appState.add(instance);
+
+    return instance;
   }
 }

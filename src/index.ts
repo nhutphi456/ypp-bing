@@ -6,9 +6,13 @@ import { NewsComponent } from "./components/news";
 import { NewsList } from "./components/newsList";
 import { SportComponent } from "./components/sport";
 import { AppModule } from "./controller/appModule";
+import { AppState } from "./controller/appState";
 import { NewsService } from "./services/newsService";
 
+import { skip } from "rxjs/operators";
+
 const app = new AppModule();
+const appState = AppState.getInstance();
 
 app.setRootComponent(AppComponent);
 
@@ -24,3 +28,13 @@ app.declareComponents(
 app.declareServices(NewsService);
 
 app.run();
+
+appState
+  .getStateSubject()
+  // .pipe(skip(1))
+  .subscribe((x) => {
+    console.log({ x1: x });
+    app.run();
+  });
+
+// subscription.unsubscribe()
