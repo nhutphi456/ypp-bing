@@ -4,15 +4,13 @@ import { Renderer } from "../helper/renderer";
 import { Component } from "../interfaces/component";
 import { Service } from "../interfaces/service";
 import { Declaration } from "../types/declaration";
-import { AppState } from "./appState";
 
 export class AppModule {
   private declaration: Declaration;
   private rootComponent: Component;
   private renderer: Renderer;
   private reflectHelper: ReflectHelper;
-  providers: Service[];
-  appState = AppState.getInstance()
+  private providers: Service[];
 
   constructor() {
     this.providers = [];
