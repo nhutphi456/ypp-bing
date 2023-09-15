@@ -37,13 +37,12 @@ export class Renderer {
     if (element.tagName in declaration) {
       const componentClass = declaration[element.tagName];
       const instance = bootstrap(componentClass);
+
       instance.data = JSON.parse(element.getAttribute("data") ?? "{}");
 
       const newEl = parseToHtmlElement(instance.render());
-      const parent = element.parentNode;
 
-      parent.appendChild(newEl);
-      parent.removeChild(element);
+      this.replaceChildren(newEl, element);
 
       [...newEl.children].forEach((child: HTMLElement) => {
         this.traverse2(child, declaration);
@@ -53,5 +52,13 @@ export class Renderer {
         this.traverse2(el, declaration);
       });
     }
+  }
+
+  private replaceChildren(newElement: HTMLElement, element: HTMLElement) {
+    const parent = element.parentNode;
+    const elIndex = [...parent.children].indexOf(element);
+
+    parent.insertBefore(newElement, parent.children[elIndex]);
+    parent.removeChild(element);
   }
 }

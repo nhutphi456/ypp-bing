@@ -5,7 +5,7 @@ import { ComponentMetadata } from "../decorator/component";
   selector: "ads",
   template: `
     <div class="max-w-sm rounded overflow-hidden shadow-lg">
-    <channel></channel>
+        <channel></channel>
         <img class="w-full" src={{data.image}} alt="Sunset in the mountains">
         <div class="px-6 py-4">
             <div class="font-bold text-xl mb-2">{{data.title}}</div>

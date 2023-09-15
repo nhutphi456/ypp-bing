@@ -3,7 +3,7 @@ import { ComponentMetadata } from "../decorator/component";
 
 @ComponentMetadata({
   selector: "channel",
-  template: "<span>{{name}}</span>",
+  template: "<div>{{name}}</div>",
 })
 export class ChannelComponent extends BaseComponent {
   name = "VTC";

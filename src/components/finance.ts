@@ -9,7 +9,7 @@ import { ComponentMetadata } from "../decorator/component";
     `,
 })
 export class FinanceComponent extends BaseComponent {
-  title = this.appState.addState(this.getTitle(), 'title') || "finance";
+  title = this.appState.addState(this.getTitle(), 'title') || "finance"
 
   constructor() {
     super();

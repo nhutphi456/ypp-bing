@@ -18,6 +18,7 @@ import { lastValueFrom } from "rxjs";
 })
 export class NewsList extends BaseComponent {
   newsList = this.appState.addState(this.fetchNews(), "newsList") || []
+  
   constructor(private newsService: NewsService) {
     super();
   }

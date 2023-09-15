@@ -11,14 +11,13 @@ import { AppModule } from "./controller/appModule";
 import { AppState } from "./controller/appState";
 import { NewsService } from "./services/newsService";
 
-import { skip } from "rxjs/operators";
-
 const app = new AppModule();
 const appState = AppState.getInstance();
 
 app.setRootComponent(AppComponent);
 
 app.declareComponents(
+  ChannelComponent,
   AppComponent,
   FinanceComponent,
   AdsComponent,
@@ -26,16 +25,11 @@ app.declareComponents(
   NewsComponent,
   SportComponent,
   TopNews,
-  ItemComponent,
-  ChannelComponent,
+  ItemComponent
 );
 app.declareServices(NewsService);
 
-appState
-  .getStateSubject()
-  // .pipe(skip(1))
-  .subscribe((state) => {
-    console.log({ state });
-    app.run();
-  });
-app.run()
+appState.getStateSubject().subscribe((state) => {
+  console.log({ state });
+  app.run();
+});
