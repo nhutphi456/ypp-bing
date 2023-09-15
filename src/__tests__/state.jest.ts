@@ -1,4 +1,3 @@
-import { lastValueFrom } from "rxjs";
 import { BaseComponent } from "../base/component";
 import { AppState } from "../controller/appState";
 import { ComponentMetadata } from "../decorator/component";
@@ -23,7 +22,7 @@ describe("App State", () => {
     `,
   })
   class TestComponent extends BaseComponent {
-    title = "Test 1";
+    title = appState.addState(this.loadTitle(), "title") || "Test 1";
 
     constructor(private testService: TestService) {
       super();
@@ -31,7 +30,7 @@ describe("App State", () => {
     }
 
     async loadTitle() {
-      this.title = await this.testService.getTitle();
+      return await this.testService.getTitle();
     }
   }
 
@@ -40,6 +39,10 @@ describe("App State", () => {
   });
 
   it("should testComponent state be added to app state", async () => {
-    expect(1).toBe(1)
+    const testComponent = new TestComponent(new TestService());
+
+    appState.getStateSubject().subscribe((state) => {
+      expect(state["title"]).toBe("Test 2");
+    });
   });
 });
