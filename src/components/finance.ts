@@ -4,8 +4,7 @@ import { ComponentMetadata } from "../decorator/component";
 @ComponentMetadata({
   selector: "finance",
   template: `
-        <channel></channel>
-        <div>Hello from {{title}}</div>
+        <h2 class="text-2xl">Hello from <span class="font-bold">{{title}}</span></h2>
     `,
 })
 export class FinanceComponent extends BaseComponent {

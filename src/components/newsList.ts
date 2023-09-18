@@ -1,6 +1,5 @@
 import { BaseComponent } from "../base/component";
 import { ComponentMetadata } from "../decorator/component";
-// import { News } from "../models/news";
 import { NewsService } from "../services/newsService";
 
 

@@ -12,10 +12,9 @@ import { AppState } from "./controller/appState";
 import { NewsService } from "./services/newsService";
 
 const app = new AppModule();
-const appState = AppState.getInstance();
+const appState = AppState.getInstance().getStateSubject();
 
 app.setRootComponent(AppComponent);
-
 app.declareComponents(
   ChannelComponent,
   AppComponent,
@@ -29,7 +28,7 @@ app.declareComponents(
 );
 app.declareServices(NewsService);
 
-appState.getStateSubject().subscribe(() => {
+appState.subscribe(() => {
   app.run();
 });
 
