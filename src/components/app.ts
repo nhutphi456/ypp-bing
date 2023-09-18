@@ -4,10 +4,9 @@ import { ComponentMetadata } from "../decorator/component";
 const appTemplate = `
   <div>
     Welcome to bing news!
-    <finance></finance>
-    <news-list></news-list>
-    <channel></channel>
-    <sport></sport>
+    <div class="flex">
+    <news-slider></news-slider>
+    </div>
   </div>
 `;
 
