@@ -26,7 +26,6 @@
   "dependencies": {
     "pubsub-js": "^1.9.4",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1",
-    "uuid": "^9.0.1"
+    "rxjs": "^7.8.1"
   }
 }

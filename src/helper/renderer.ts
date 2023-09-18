@@ -43,7 +43,6 @@ export class Renderer {
       const newEl = parseToHtmlElement(instance.render());
 
       this.replaceChildren(newEl, element);
-
       elChildren = newEl.children;
     } else {
       elChildren = element.children;

@@ -6,10 +6,8 @@ import { InterpolationHandler } from "../helper/interpolationHandler";
 import { NgForHandler } from "../helper/ngForHandler";
 import { NgIfHandler } from "../helper/ngIfHandler";
 import { IViewHandler } from "../interfaces/viewHandler";
-import { v4 as uuidv4 } from "uuid";
 
 export abstract class BaseComponent {
-  id = uuidv4()
   private viewHandler: IViewHandler;
   appState = AppState.getInstance()
 
