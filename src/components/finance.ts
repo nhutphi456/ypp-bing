@@ -5,7 +5,8 @@ import { ComponentMetadata } from "../decorator/component";
   selector: "finance",
   template: `
         <h2 class="text-2xl">Hello from <span class="font-bold">{{title}}</span></h2>
-    `,
+        <div>test2</div>
+        `,
 })
 export class FinanceComponent extends BaseComponent {
   title = this.appState.addState(this.getTitle(), 'title') || "finance"

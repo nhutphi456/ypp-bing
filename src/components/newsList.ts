@@ -16,7 +16,7 @@ import { NewsService } from "../services/newsService";
 })
 export class NewsList extends BaseComponent {
   newsList = this.appState.addState(this.fetchNews(), "newsList") || [];
-
+  
   constructor(private newsService: NewsService) {
     super();
   }

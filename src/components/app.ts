@@ -6,8 +6,8 @@ const appTemplate = `
     Welcome to bing news!
     <finance></finance>
     <news-list></news-list>
-    <channel></channel>
     <sport></sport>
+    <channel></channel>
   </div>
 `;
 
