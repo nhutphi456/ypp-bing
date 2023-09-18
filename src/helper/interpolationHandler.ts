@@ -10,6 +10,7 @@ export class InterpolationHandler extends ViewHandler {
     view = view.replace(/{{(.*?)}}/g, (match, key) => {
       const keys = key.split(".");
       let value = instance;
+      
       for (const k of keys) {
         value = value[k];
         if (value === undefined) return match; // Return the placeholder if the value is undefined

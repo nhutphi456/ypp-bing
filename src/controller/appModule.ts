@@ -23,12 +23,17 @@ export class AppModule {
     return this.declaration;
   }
 
+  getProviders(): Service[] {
+    return this.providers
+  }
+
   declareServices(...services: Service[]): void {
     this.providers = [...new Set([...this.providers, ...services])];
 
     for (const key in this.declaration) {
       const target = this.reflectHelper.getComponentMetadata(this.declaration[key]);
       let serviceList = target.provider || [];
+      
       serviceList = [...new Set([...serviceList, ...this.providers])];
       Reflect.defineMetadata(
         COMPONENT_META_DATA,

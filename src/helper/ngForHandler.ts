@@ -58,6 +58,7 @@ export class NgForHandler extends ViewHandler {
     const value = ngForExpression.value;
     const arr = value.split(" ");
     const dataProperty = arr[arr.length - 1];
+    
     return dataProperty;
   }
 }

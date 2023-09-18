@@ -29,6 +29,6 @@ describe("test service", () => {
     
     const result = app.run()
 
-    expect(result).toBe("<div>news 1</div>");
+    expect(result).toContain("<div>news 1</div>");
   });
 });

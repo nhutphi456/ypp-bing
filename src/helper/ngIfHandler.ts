@@ -13,10 +13,12 @@ export class NgIfHandler extends ViewHandler {
     [...element.children].forEach((child: HTMLElement) => {
       const attributes = child.attributes;
       const ngIfExpression = attributes.getNamedItem(NGIF_ATTRIBUTE);
+      
       if (ngIfExpression) {
         const ngIfValue = ngIfExpression.value;
         const keys = ngIfValue.split(".");
         let value = instance;
+       
         for (const k of keys) {
           value = value[k];
         }
@@ -29,7 +31,6 @@ export class NgIfHandler extends ViewHandler {
     });
 
     view = element.innerHTML;
-
     return view;
   }
 }
