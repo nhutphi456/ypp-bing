@@ -7,7 +7,7 @@ export class NewsService {
     return response.json()
   }
 
-  async getSliderNews(){
+  async getTopNews(){
     const response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`)
 
     return response.json()

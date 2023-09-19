@@ -37,13 +37,15 @@ export class Renderer {
     if (element.tagName in declaration) {
       const componentClass = declaration[element.tagName];
       const instance = bootstrap(componentClass);
+      const parent = element.parentNode;
+      if (!parent) return;
 
       instance.data = JSON.parse(element.getAttribute("data") ?? "{}"); //parse data receive from parent component if any
 
       const newEl = parseToHtmlElement(instance.render());
 
       this.replaceChildren(newEl, element);
-      elChildren = newEl.children;
+      elChildren = parent.children;
     } else {
       elChildren = element.children;
     }
@@ -55,9 +57,13 @@ export class Renderer {
 
   private replaceChildren(newElement: HTMLElement, element: HTMLElement) {
     const parent = element.parentNode;
-    const elementIdx = [...parent.children].indexOf(element);
+    let elementIdx = [...parent.children].indexOf(element);
 
-    parent.insertBefore(newElement, parent.children[elementIdx]);
+    [...newElement.children].forEach((el: HTMLElement) => {
+      parent.insertBefore(el, parent.children[elementIdx]);
+      elementIdx++;
+    });
+
     parent.removeChild(element);
   }
 }

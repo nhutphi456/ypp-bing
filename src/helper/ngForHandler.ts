@@ -31,7 +31,6 @@ export class NgForHandler extends ViewHandler {
         if(!val) return child.remove()
         if(val.length === 0) return child.remove()
         val.forEach((item) => {
-          console.log({item})
           const newElement = child.cloneNode(true) as HTMLElement;
 
           newElement.setAttribute("data", JSON.stringify(item));

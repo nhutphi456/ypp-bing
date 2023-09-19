@@ -61,7 +61,6 @@ export class AppModule {
     const rootSelector = this.reflectHelper.getComponentMetadata(this.rootComponent).selector;
     const app = this.renderer.renderRoot(rootSelector, this.declaration);
     console.log('done render')
-    
     return app
   }
 }
