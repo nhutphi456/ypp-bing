@@ -57,9 +57,9 @@ export class AppModule {
     this.rootComponent = component;
   }
 
-  async run(): Promise<string> {
+   run(): Promise<string> {
     const rootSelector = this.reflectHelper.getComponentMetadata(this.rootComponent).selector;
-    const app = await this.renderer.renderRoot(rootSelector, this.declaration);
+    const app = this.renderer.renderRoot(rootSelector, this.declaration);
     console.log('done render')
     return app
   }
