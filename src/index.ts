@@ -7,7 +7,6 @@ import { AppModule } from "./controller/appModule";
 import { AppState } from "./controller/appState";
 import { NewsService } from "./services/newsService";
 
-import { from } from "rxjs"
 
 const app = new AppModule();
 const appState = AppState.getInstance().getStateSubject();
