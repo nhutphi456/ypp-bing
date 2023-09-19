@@ -6,23 +6,23 @@ import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 export class Renderer {
   constructor() {}
 
-  renderRoot(rootSelector: string, declaration: Declaration): string {
-    document.body.innerHTML = `<${rootSelector}></${rootSelector}>`;
-    this.traverse(document.body, declaration);
-    return document.body.innerHTML;
+  renderRoot(rootSelector: string, declaration: Declaration): void {
+    const root = document.getElementById("root");
+    root.innerHTML = `<${rootSelector}></${rootSelector}>`;
+    this.traverse(root, declaration);
   }
 
   private traverse(element: HTMLElement, declaration: Declaration): void {
-    const elObs = from([...element.children]);
+    const elementObs = from([...element.children]);
     let elChildren: HTMLCollection;
 
-    elObs.subscribe(async (el: HTMLElement) => {
+    elementObs.subscribe(async (el: HTMLElement) => {
       if (el.tagName in declaration) {
         const componentClass = declaration[el.tagName];
         const instance = bootstrap(componentClass);
         const parent = el.parentNode;
 
-        if (!parent) return;
+        // if (!parent) return;
         instance.data = JSON.parse(el.getAttribute("data") ?? "{}"); //parse data receive from parent component if any
 
         const elViewString = await instance.render();
@@ -33,6 +33,7 @@ export class Renderer {
       } else {
         elChildren = el.children;
       }
+
       from([...elChildren]).subscribe((e: HTMLElement) => {
         this.traverse(e, declaration);
       });

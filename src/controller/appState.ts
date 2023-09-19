@@ -14,7 +14,7 @@ export class AppState {
     return AppState.instance;
   }
 
-  getStateSubject(): Observable<unknown> {
+  getState(): Observable<unknown> {
     return this.stateSubject.asObservable();
   }
 

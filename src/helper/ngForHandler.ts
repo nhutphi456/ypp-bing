@@ -28,7 +28,6 @@ export class NgForHandler extends ViewHandler {
       if (ngForExpression) {
         const dataProperty = this.getDataProperty(ngForExpression);
         const val = eval(`instance.${dataProperty}`)
-        console.log(`data`, val);
       
         if(!val || val.length === 0) return child.remove()
         val.forEach((item) => {
