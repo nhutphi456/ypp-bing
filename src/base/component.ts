@@ -6,6 +6,7 @@ import { InterpolationHandler } from "../helper/interpolationHandler";
 import { NgForHandler } from "../helper/ngForHandler";
 import { NgIfHandler } from "../helper/ngIfHandler";
 import { IViewHandler } from "../interfaces/viewHandler";
+import { loadTemplate } from "../utils/fetchTemplate";
 
 export abstract class BaseComponent {
   private viewHandler: IViewHandler;
@@ -26,8 +27,10 @@ export abstract class BaseComponent {
     return Reflect.getMetadata(COMPONENT_META_DATA, this.constructor);
   }
 
-  render(): string {
-    const view = this.getMetadata().template;
+  async render(): Promise<string> {
+    // const view = this.getMetadata().template;
+    const url = this.getMetadata().templateUrl
+    const view = await loadTemplate(url)
     return this.viewHandler.handle(this, view);
   }
 }

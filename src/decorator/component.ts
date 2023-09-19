@@ -4,8 +4,9 @@ import { Service } from "../interfaces/service";
 
 export interface IComponentMetadata {
   selector: string;
-  template: string;
-  provider?: Service[]
+  template?: string;
+  provider?: Service[];
+  templateUrl?: string;
 }
 
 // Define the decorator function

@@ -1,6 +1,6 @@
 import { AppComponent } from "./components/app";
-import { News } from "./components/news";
-import { NewsList } from "./components/newsList";
+import { News } from "./components/news/news";
+import { NewsList } from "./components/news/newsList";
 import { AppModule } from "./controller/appModule";
 import { AppState } from "./controller/appState";
 import { NewsService } from "./services/newsService";
@@ -12,6 +12,6 @@ app.setRootComponent(AppComponent);
 app.declareComponents(AppComponent, NewsList, News);
 app.declareServices(NewsService);
 
-appState.subscribe(() => {
-  app.run();
+appState.subscribe(async () => {
+  await app.run();
 });

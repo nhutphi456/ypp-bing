@@ -5,44 +5,45 @@ import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 export class Renderer {
   constructor() {}
 
-  renderRoot(rootSelector: string, declaration: Declaration): string {
+  async renderRoot(rootSelector: string, declaration: Declaration): Promise<string> {
     document.body.innerHTML = `<${rootSelector}></${rootSelector}>`;
-    this.traverse2(document.body, declaration);
+    await this.traverse(document.body, declaration);
     return document.body.innerHTML;
   }
 
   //deprecated
-  private traverse(element: HTMLElement, declaration: Declaration): void {
-    for (const key in declaration) {
-      const elements = element.querySelectorAll(key);
+  // private traverse(element: HTMLElement, declaration: Declaration): void {
+  //   for (const key in declaration) {
+  //     const elements = element.querySelectorAll(key);
 
-      elements.forEach((element: HTMLElement) => {
-        const componentClass = declaration[element.tagName];
-        const instance = bootstrap(componentClass);
-        //parse data receive from parent component if any
-        instance.data = JSON.parse(element.getAttribute("data") ?? "{}");
+  //     elements.forEach((element: HTMLElement) => {
+  //       const componentClass = declaration[element.tagName];
+  //       const instance = bootstrap(componentClass);
+  //       //parse data receive from parent component if any
+  //       instance.data = JSON.parse(element.getAttribute("data") ?? "{}");
 
-        element.outerHTML = instance.render();
+  //       element.outerHTML = instance.render();
 
-        [...element.children].forEach((child: HTMLElement) => {
-          this.traverse(child, declaration);
-        });
-      });
-    }
-  }
+  //       [...element.children].forEach((child: HTMLElement) => {
+  //         this.traverse(child, declaration);
+  //       });
+  //     });
+  //   }
+  // }
 
-  private traverse2(element: HTMLElement, declaration: Declaration): void {
+  private async traverse(element: HTMLElement, declaration: Declaration): Promise<void> {
     let elChildren: HTMLCollection;
 
     if (element.tagName in declaration) {
       const componentClass = declaration[element.tagName];
       const instance = bootstrap(componentClass);
       const parent = element.parentNode;
+      
       if (!parent) return;
-
       instance.data = JSON.parse(element.getAttribute("data") ?? "{}"); //parse data receive from parent component if any
 
-      const newEl = parseToHtmlElement(instance.render());
+      const elViewString = await instance.render()
+      const newEl = parseToHtmlElement(elViewString);
 
       this.replaceChildren(newEl, element);
       elChildren = parent.children;
@@ -51,7 +52,7 @@ export class Renderer {
     }
 
     [...elChildren].forEach((el: HTMLElement) => {
-      this.traverse2(el, declaration);
+      this.traverse(el, declaration);
     });
   }
 
