@@ -4,15 +4,11 @@ import { NewsService } from "../../services/newsService";
 
 @ComponentMetadata({
   selector: "news-list",
-  template: `
-        <div class="grid grid-cols-4 gap-4 p-6">
-            <news *ngFor="let item of newsList.articles" data="item"></news>
-        </div>
-    `,
+  templateUrl: "/news/newsList.html"
 })
 export class NewsList extends BaseComponent {
-  // newsList = this.appState.addState(this.getNewsList(), "newsList") || [];
-    newsList = [];
+  newsList = this.appState.addState(this.getNewsList(), "newsList") || [];
+    // newsList = newsData;
   constructor(private newsService: NewsService) {
     super();
   }
@@ -21,3 +17,4 @@ export class NewsList extends BaseComponent {
     return this.newsService.getTopNews();
   }
 }
+

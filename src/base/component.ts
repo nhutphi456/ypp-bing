@@ -6,11 +6,11 @@ import { InterpolationHandler } from "../helper/interpolationHandler";
 import { NgForHandler } from "../helper/ngForHandler";
 import { NgIfHandler } from "../helper/ngIfHandler";
 import { IViewHandler } from "../interfaces/viewHandler";
-import { loadTemplate } from "../utils/fetchTemplate";
+import { loadTemplate, templateDictionary } from "../utils/fetchTemplate";
 
 export abstract class BaseComponent {
   private viewHandler: IViewHandler;
-  appState = AppState.getInstance()
+  appState = AppState.getInstance();
 
   constructor() {
     const interpolationHandler = new InterpolationHandler();
@@ -18,9 +18,8 @@ export abstract class BaseComponent {
     const ngForHandler = new NgForHandler();
     const ngIfHandler = new NgIfHandler();
 
-    interpolationHandler.setNext(ngForHandler).setNext(bindAttributeHandler).setNext(ngIfHandler)
+    interpolationHandler.setNext(ngForHandler).setNext(bindAttributeHandler).setNext(ngIfHandler);
     this.viewHandler = interpolationHandler;
-
   }
 
   getMetadata(): IComponentMetadata | undefined {
@@ -28,9 +27,22 @@ export abstract class BaseComponent {
   }
 
   async render(): Promise<string> {
-    // const view = this.getMetadata().template;
-    const url = this.getMetadata().templateUrl
-    const view = await loadTemplate(url)
+    const view = await this.getTemplate()
     return this.viewHandler.handle(this, view);
+  }
+
+  private async getTemplate() {
+    const url = this.getMetadata().templateUrl;
+    const componentName = this.constructor.name;
+    let view;
+
+    if (componentName in templateDictionary) {
+      view = templateDictionary[componentName];
+    } else {
+      view = await loadTemplate(url);
+      templateDictionary[componentName] = view
+    }
+
+    return view
   }
 }

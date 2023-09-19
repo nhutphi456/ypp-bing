@@ -1,4 +1,5 @@
 import { AppComponent } from "./components/app";
+import { Finance } from "./components/finance/finance";
 import { News } from "./components/news/news";
 import { NewsList } from "./components/news/newsList";
 import { AppModule } from "./controller/appModule";
@@ -9,9 +10,9 @@ const app = new AppModule();
 const appState = AppState.getInstance().getStateSubject();
 
 app.setRootComponent(AppComponent);
-app.declareComponents(AppComponent, NewsList, News);
+app.declareComponents(AppComponent, NewsList, News, Finance);
 app.declareServices(NewsService);
 
-appState.subscribe(async () => {
-  await app.run();
+appState.subscribe( () => {
+  app.run();
 });

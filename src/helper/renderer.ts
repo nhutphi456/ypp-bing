@@ -11,26 +11,6 @@ export class Renderer {
     return document.body.innerHTML;
   }
 
-  //deprecated
-  // private traverse(element: HTMLElement, declaration: Declaration): void {
-  //   for (const key in declaration) {
-  //     const elements = element.querySelectorAll(key);
-
-  //     elements.forEach((element: HTMLElement) => {
-  //       const componentClass = declaration[element.tagName];
-  //       const instance = bootstrap(componentClass);
-  //       //parse data receive from parent component if any
-  //       instance.data = JSON.parse(element.getAttribute("data") ?? "{}");
-
-  //       element.outerHTML = instance.render();
-
-  //       [...element.children].forEach((child: HTMLElement) => {
-  //         this.traverse(child, declaration);
-  //       });
-  //     });
-  //   }
-  // }
-
   private async traverse(element: HTMLElement, declaration: Declaration): Promise<void> {
     let elChildren: HTMLCollection;
 
@@ -38,11 +18,11 @@ export class Renderer {
       const componentClass = declaration[element.tagName];
       const instance = bootstrap(componentClass);
       const parent = element.parentNode;
-      
       if (!parent) return;
+
       instance.data = JSON.parse(element.getAttribute("data") ?? "{}"); //parse data receive from parent component if any
 
-      const elViewString = await instance.render()
+      const elViewString = await instance.render();
       const newEl = parseToHtmlElement(elViewString);
 
       this.replaceChildren(newEl, element);
@@ -58,13 +38,16 @@ export class Renderer {
 
   private replaceChildren(newElement: HTMLElement, element: HTMLElement) {
     const parent = element.parentNode;
-    let elementIdx = [...parent.children].indexOf(element);
+    
+    if (parent) {
+      let elementIdx = [...parent.children].indexOf(element);
 
-    [...newElement.children].forEach((el: HTMLElement) => {
-      parent.insertBefore(el, parent.children[elementIdx]);
-      elementIdx++;
-    });
+      [...newElement.children].forEach((el: HTMLElement) => {
+        parent.insertBefore(el, parent.children[elementIdx]);
+        elementIdx++;
+      });
 
-    parent.removeChild(element);
+      parent.removeChild(element);
+    }
   }
 }
