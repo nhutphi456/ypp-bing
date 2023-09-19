@@ -1,4 +1,4 @@
-import { AppComponent } from "./components/app";
+import { AppComponent } from "./components/app/app";
 import { Finance } from "./components/finance/finance";
 import { News } from "./components/news/news";
 import { NewsList } from "./components/news/newsList";
@@ -13,6 +13,6 @@ app.setRootComponent(AppComponent);
 app.declareComponents(AppComponent, NewsList, News, Finance);
 app.declareServices(NewsService);
 
-appState.subscribe( () => {
+appState.subscribe(() => {
   app.run();
 });

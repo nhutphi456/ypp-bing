@@ -13,8 +13,10 @@ export class NgForHandler extends ViewHandler {
     //2. loop through data and create selector
     //3. bind data to that selector
     const element = parseToHtmlElement(view);
+
     this.bindNgFor(element, instance);
     view = element.innerHTML;
+    
     return super.handle(instance, view);
   }
 
@@ -25,11 +27,10 @@ export class NgForHandler extends ViewHandler {
 
       if (ngForExpression) {
         const dataProperty = this.getDataProperty(ngForExpression);
-        console.log(`instance.${dataProperty}`, {...eval(`instance.${dataProperty}`)})
         const val = eval(`instance.${dataProperty}`)
+        console.log(`data`, val);
       
-        if(!val) return child.remove()
-        if(val.length === 0) return child.remove()
+        if(!val || val.length === 0) return child.remove()
         val.forEach((item) => {
           const newElement = child.cloneNode(true) as HTMLElement;
 
