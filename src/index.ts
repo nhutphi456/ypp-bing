@@ -4,15 +4,16 @@ import { NewsSlider } from "./components/news-slider/newsSlider";
 import { News } from "./components/news/news";
 import { NewsList } from "./components/news/newsList";
 import { Sport } from "./components/sport/sport";
+import { SportItem } from "./components/sport/sportItem";
 import { AppModule } from "./controller/appModule";
 import { AppState } from "./controller/appState";
 import { NewsService } from "./services/newsService";
 
 const app = new AppModule();
-const appState = AppState.getInstance().getState();
+const appState = AppState.getInstance().getState()
 
 app.setRootComponent(AppComponent);
-app.declareComponents(AppComponent, NewsList, News, Finance, Sport, NewsSlider);
+app.declareComponents(AppComponent, NewsList, News, Finance, Sport, NewsSlider, SportItem);
 app.declareServices(NewsService);
 
 appState.subscribe((state) => {
