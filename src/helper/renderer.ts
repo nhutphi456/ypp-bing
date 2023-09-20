@@ -6,10 +6,13 @@ import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 export class Renderer {
   constructor() {}
 
-  renderRoot(rootSelector: string, declaration: Declaration): void {
+  renderRoot(rootSelector: string, declaration: Declaration): string {
     const root = document.getElementById("root");
+
     root.innerHTML = `<${rootSelector}></${rootSelector}>`;
     this.traverse(root, declaration);
+
+    return root.innerHTML
   }
 
   private traverse(element: HTMLElement, declaration: Declaration): void {
