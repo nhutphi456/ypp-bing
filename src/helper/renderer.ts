@@ -6,11 +6,20 @@ import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 export class Renderer {
   constructor() {}
 
-  renderRoot(rootSelector: string, declaration: Declaration): string {
+  // renderRoot(rootSelector: string, declaration: Declaration): string {
+  //   const root = document.getElementById("root");
+
+  //   root.innerHTML = `<${rootSelector}></${rootSelector}>`;
+  //   this.traverse(root, declaration);
+
+  //   return root.innerHTML
+  // }
+
+  async renderRoot(rootSelector: string, declaration: Declaration): Promise<string> {
     const root = document.getElementById("root");
 
     root.innerHTML = `<${rootSelector}></${rootSelector}>`;
-    this.traverse(root, declaration);
+    await this.traverse2(root, declaration);
 
     return root.innerHTML
   }
@@ -56,5 +65,30 @@ export class Renderer {
 
       parent.removeChild(element);
     }
+  }
+
+  private async traverse2(element: HTMLElement, declaration: Declaration): Promise<void> {
+    let elChildren: HTMLCollection;
+
+    if (element.tagName in declaration) {
+      const componentClass = declaration[element.tagName];
+      const instance = bootstrap(componentClass);
+      const parent = element.parentNode;
+      if (!parent) return;
+
+      instance.data = JSON.parse(element.getAttribute("data") ?? "{}"); //parse data receive from parent component if any
+
+      const elViewString = await instance.render();
+      const newEl = parseToHtmlElement(elViewString);
+
+      this.replaceChildren(newEl, element);
+      elChildren = parent.children;
+    } else {
+      elChildren = element.children;
+    }
+
+    [...elChildren].forEach((el: HTMLElement) => {
+      this.traverse2(el, declaration);
+    });
   }
 }

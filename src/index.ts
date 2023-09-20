@@ -1,6 +1,7 @@
 import { AppComponent } from "./components/app/app";
 import { Finance } from "./components/finance/finance";
 import { NewsSlider } from "./components/news-slider/newsSlider";
+import { NewsSliderItem } from "./components/news-slider/newsSliderItem";
 import { News } from "./components/news/news";
 import { NewsList } from "./components/news/newsList";
 import { Sport } from "./components/sport/sport";
@@ -10,13 +11,14 @@ import { AppState } from "./controller/appState";
 import { NewsService } from "./services/newsService";
 
 const app = new AppModule();
-const appState = AppState.getInstance().getState()
+const appState = AppState.getInstance().getState();
 
 app.setRootComponent(AppComponent);
-app.declareComponents(AppComponent, NewsList, News, Finance, Sport, NewsSlider, SportItem);
+app.declareComponents(AppComponent, NewsList, News, Finance, Sport, NewsSlider, SportItem, NewsSliderItem);
 app.declareServices(NewsService);
 
 appState.subscribe((state) => {
-  console.log({state})
+  console.log({ state });
   app.run();
 });
+
