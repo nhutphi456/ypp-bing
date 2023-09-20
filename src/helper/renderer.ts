@@ -5,10 +5,10 @@ import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 export class Renderer {
   constructor() {}
 
-  async renderRoot(rootSelector: string, declaration: Declaration): Promise<string> {
-    document.body.innerHTML = `<${rootSelector}></${rootSelector}>`;
-    await this.traverse(document.body, declaration);
-    return document.body.innerHTML;
+  async renderRoot(rootSelector: string, declaration: Declaration): Promise<void> {
+    const root = document.getElementById("root")
+    root.innerHTML = `<${rootSelector}></${rootSelector}>`;
+    await this.traverse(root, declaration);
   }
 
   private async traverse(element: HTMLElement, declaration: Declaration): Promise<void> {
