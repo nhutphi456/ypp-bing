@@ -6,23 +6,23 @@ import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 export class Renderer {
   constructor() {}
 
-  // renderRoot(rootSelector: string, declaration: Declaration): string {
-  //   const root = document.getElementById("root");
-
-  //   root.innerHTML = `<${rootSelector}></${rootSelector}>`;
-  //   this.traverse(root, declaration);
-
-  //   return root.innerHTML
-  // }
-
-  async renderRoot(rootSelector: string, declaration: Declaration): Promise<string> {
+  renderRoot(rootSelector: string, declaration: Declaration): string {
     const root = document.getElementById("root");
 
     root.innerHTML = `<${rootSelector}></${rootSelector}>`;
-    await this.traverse2(root, declaration);
+    this.traverse(root, declaration);
 
     return root.innerHTML
   }
+
+  // async renderRoot(rootSelector: string, declaration: Declaration): Promise<string> {
+  //   const root = document.getElementById("root");
+
+  //   root.innerHTML = `<${rootSelector}></${rootSelector}>`;
+  //   await this.traverse2(root, declaration);
+
+  //   return root.innerHTML
+  // }
 
   private traverse(element: HTMLElement, declaration: Declaration): void {
     const elementObs = from([...element.children]);

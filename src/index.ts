@@ -14,11 +14,20 @@ const app = new AppModule();
 const appState = AppState.getInstance().getState();
 
 app.setRootComponent(AppComponent);
-app.declareComponents(AppComponent, NewsList, News, Finance, Sport, NewsSlider, SportItem, NewsSliderItem);
+app.declareComponents(
+  AppComponent,
+  NewsList,
+  News,
+  Finance,
+  Sport,
+  NewsSlider,
+  SportItem,
+  NewsSliderItem
+);
 app.declareServices(NewsService);
 
-appState.subscribe((state) => {
-  console.log({ state });
-  app.run();
-});
-
+appState
+  .subscribe((state) => {
+    console.log({ state });
+    app.run();
+  });

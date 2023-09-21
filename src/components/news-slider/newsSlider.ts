@@ -7,7 +7,7 @@ import { NewsService } from "../../services/newsService";
   templateUrl: "/news-slider/newsSlider.html",
 })
 export class NewsSlider extends BaseComponent {
-  sliderItems = this.appState.addState(this.getNewsList(), "sliderItems") || [];
+  sliderItems = this.appState.addState(this.getNewsList(), "newsList") || [];
 
   constructor(private newsService: NewsService) {
     super();
