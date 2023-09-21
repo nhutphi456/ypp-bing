@@ -16,7 +16,7 @@ export class NgForHandler extends ViewHandler {
 
     this.bindNgFor(element, instance);
     view = element.innerHTML;
-    
+
     return super.handle(instance, view);
   }
 
@@ -27,20 +27,22 @@ export class NgForHandler extends ViewHandler {
 
       if (ngForExpression) {
         const dataProperty = this.getDataProperty(ngForExpression);
-        const val = eval(`instance.${dataProperty}`)
-      
-        if(!val || val.length === 0) return child.remove()
-        val.forEach((item) => {
+        const val = eval(`instance.${dataProperty}`);
+        // const val = this.evalInContext.call(instance, dataProperty)
+
+        if (!val || val.length === 0) return child.remove();
+        val.forEach((item, index) => {
           const newElement = child.cloneNode(true) as HTMLElement;
 
           newElement.setAttribute("data", JSON.stringify(item));
+          newElement.setAttribute("ng-data-index", index + 1);
           newElement.removeAttribute(NGFOR_ATTRIBUTE);
           element.appendChild(newElement);
           child.remove();
         });
       }
 
-      this.bindNgFor(child, instance);  
+      this.bindNgFor(child, instance);
     });
   }
 
@@ -61,7 +63,7 @@ export class NgForHandler extends ViewHandler {
     const value = ngForExpression.value;
     const arr = value.split(" ");
     const dataProperty = arr[arr.length - 1];
-    
+
     return dataProperty;
   }
 }

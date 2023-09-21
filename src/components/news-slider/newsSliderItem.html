@@ -1,6 +1,6 @@
-<div *ngIf="data.urlToImage" class="carousel-item" style="height: 350px;">
-    <img src={{data.urlToImage}} class="d-block w-100">
-    <div class="carousel-caption d-none d-md-block">
-        <h5>{{data.title}}</h5>
-      </div>
+<div *ngIf="data.urlToImage" class="carousel-item" [class.active]="index === 0" style="height: 350px;">
+  <img src={{data.urlToImage}} class="d-block w-100">
+  <div class="carousel-caption d-none d-md-block">
+    <h5>{{data.title}}</h5>
+  </div>
 </div>

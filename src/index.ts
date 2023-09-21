@@ -2,6 +2,7 @@ import { AppComponent } from "./components/app/app";
 import { Finance } from "./components/finance/finance";
 import { NewsSlider } from "./components/news-slider/newsSlider";
 import { NewsSliderItem } from "./components/news-slider/newsSliderItem";
+import { SliderPagination } from "./components/news-slider/sliderPagination";
 import { News } from "./components/news/news";
 import { NewsList } from "./components/news/newsList";
 import { Sport } from "./components/sport/sport";
@@ -22,7 +23,8 @@ app.declareComponents(
   Sport,
   NewsSlider,
   SportItem,
-  NewsSliderItem
+  NewsSliderItem,
+  SliderPagination
 );
 app.declareServices(NewsService);
 
