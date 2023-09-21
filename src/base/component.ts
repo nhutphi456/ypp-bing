@@ -18,7 +18,11 @@ export abstract class BaseComponent {
     const ngForHandler = new NgForHandler();
     const ngIfHandler = new NgIfHandler();
 
-    interpolationHandler.setNext(ngForHandler).setNext(bindAttributeHandler).setNext(ngIfHandler);
+    interpolationHandler
+      .setNext(ngForHandler)
+      .setNext(bindAttributeHandler)
+      .setNext(ngIfHandler);
+      
     this.viewHandler = interpolationHandler;
   }
 
@@ -27,8 +31,8 @@ export abstract class BaseComponent {
   }
 
   async render(): Promise<string> {
-    const url = this.getMetadata().templateUrl
-    const view = await loadTemplate(url)
+    const url = this.getMetadata().templateUrl;
+    const view = await loadTemplate(url);
 
     return this.viewHandler.handle(this, view);
   }

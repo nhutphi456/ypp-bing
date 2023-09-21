@@ -35,7 +35,7 @@ export class NgForHandler extends ViewHandler {
           const newElement = child.cloneNode(true) as HTMLElement;
 
           newElement.setAttribute("data", JSON.stringify(item));
-          newElement.setAttribute("ng-data-index", index + 1);
+          newElement.setAttribute("ng-data-index", index);
           newElement.removeAttribute(NGFOR_ATTRIBUTE);
           element.appendChild(newElement);
           child.remove();
