@@ -27,7 +27,7 @@ export class Renderer {
 
         // if (!parent) return;
         instance.data = JSON.parse(el.getAttribute("data") ?? "{}"); //parse data receive from parent component if any
-        instance.index = Number(el.getAttribute("ng-data-index")) ?? -1
+        instance.index = +el.getAttribute("ng-data-index") ?? -1
 
         const elViewString = await instance.render();
         const newEl = parseToHtmlElement(elViewString);
