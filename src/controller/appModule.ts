@@ -24,7 +24,7 @@ export class AppModule {
   }
 
   getProviders(): Service[] {
-    return this.providers
+    return this.providers;
   }
 
   declareServices(...services: Service[]): void {
@@ -33,7 +33,7 @@ export class AppModule {
     for (const key in this.declaration) {
       const target = this.reflectHelper.getComponentMetadata(this.declaration[key]);
       let serviceList = target.provider || [];
-      
+
       serviceList = [...new Set([...serviceList, ...this.providers])];
       Reflect.defineMetadata(
         COMPONENT_META_DATA,
@@ -57,10 +57,11 @@ export class AppModule {
     this.rootComponent = component;
   }
 
-    run(): string {
+  run(): string {
     const rootSelector = this.reflectHelper.getComponentMetadata(this.rootComponent).selector;
     const app = this.renderer.renderRoot(rootSelector, this.declaration);
-    console.log('done render')
-    return app
+    
+    console.log("done render");
+    return app;
   }
 }
