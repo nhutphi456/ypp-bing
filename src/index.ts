@@ -26,8 +26,7 @@ app.declareComponents(
 );
 app.declareServices(NewsService);
 
-appState
-  .subscribe((state) => {
-    console.log({ state });
-    app.run();
-  });
+appState.subscribe((state) => {
+  console.log({ state });
+  app.run();
+});
