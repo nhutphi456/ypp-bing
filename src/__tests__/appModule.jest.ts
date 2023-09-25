@@ -122,7 +122,6 @@ describe("Test pass data", () => {
     const result = app.run();
 
     expect(result).toContain(`<p>Hello</p>`);
-    // expect(result).toBe("");
   });
 });
 
@@ -176,6 +175,5 @@ describe("Test pass object data", () => {
 
     expect(result).toContain(`<p>Title: Hello</p>`);
     expect(result).toContain(`<p>Like: 20</p>`);
-    // expect(result).toBe("");
   });
 });

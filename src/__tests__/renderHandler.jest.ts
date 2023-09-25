@@ -43,7 +43,6 @@ describe("Test render handler", () => {
     expect(result).toContain("<div>firstName: Jason</div>");
     expect(result).toContain("<div>lastName: Hudson</div>");
     expect(children.length).toBe(3);
-    // expect(result).toBe("");
   });
 });
 

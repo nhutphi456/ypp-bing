@@ -8,10 +8,6 @@ import { ComponentMetadata } from "../../decorator/component";
 export class Sport extends BaseComponent {
   sports = this.appState.addState(this.fetchSport(), "sports") || [];
 
-  constructor(){
-    super()
-  }
-
   fetchSport() {
     const data = [
       {

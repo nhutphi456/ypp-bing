@@ -4,10 +4,6 @@ import { ViewHandler } from "../interfaces/viewHandler";
 import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 
 export class NgForHandler extends ViewHandler {
-  constructor() {
-    super();
-  }
-
   public handle(instance: InstanceType<Component>, view: string): string {
     const element = parseToHtmlElement(view);
 

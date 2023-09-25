@@ -39,7 +39,7 @@ describe("App State", () => {
   });
 
   it("should testComponent state be added to app state", async () => {
-    const testComponent = new TestComponent(new TestService());
+    new TestComponent(new TestService());
 
     appState.getState().subscribe((state) => {
       expect(state["title"]).toBe("Test 2");

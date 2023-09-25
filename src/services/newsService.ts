@@ -1,7 +1,5 @@
 const API_KEY = "732700a3032147f1af6b3bd8a15486ec"
 export class NewsService {
-  constructor() {}
-
   async getNews(){
     const response = await fetch("./services/news.json")
     return response.json()

@@ -2,9 +2,6 @@ import { Component } from "../interfaces/component";
 import { ViewHandler } from "../interfaces/viewHandler";
 
 export class InterpolationHandler extends ViewHandler {
-  constructor() {
-    super();
-  }
 
   public handle(instance: InstanceType<Component>, view: string): string {
     // view = view.replace(/{{(.*?)}}/g, (match, key) => {
