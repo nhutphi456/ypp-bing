@@ -13,7 +13,7 @@ export class NewsSlider extends BaseComponent {
     super();
   }
 
-  getNewsList() {
+  getNewsList(): Promise<unknown> {
     return this.newsService.getTopNews();
   }
 }

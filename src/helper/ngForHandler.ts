@@ -9,9 +9,6 @@ export class NgForHandler extends ViewHandler {
   }
 
   public handle(instance: InstanceType<Component>, view: string): string {
-    //1. detect ngFor
-    //2. loop through data and create selector
-    //3. bind data to that selector
     const element = parseToHtmlElement(view);
 
     this.bindNgFor(element, instance);
@@ -28,7 +25,6 @@ export class NgForHandler extends ViewHandler {
       if (ngForExpression) {
         const dataProperty = this.getDataProperty(ngForExpression);
         const val = eval(`instance.${dataProperty}`);
-        // const val = this.evalInContext.call(instance, dataProperty)
 
         if (!val || val.length === 0) return child.remove();
         val.forEach((item, index) => {

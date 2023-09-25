@@ -4,15 +4,13 @@ import { Declaration } from "../types/declaration";
 import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 
 export class Renderer {
-  constructor() {}
-
   renderRoot(rootSelector: string, declaration: Declaration): string {
     const root = document.getElementById("root");
 
     root.innerHTML = `<${rootSelector}></${rootSelector}>`;
     this.traverse(root, declaration);
 
-    return root.innerHTML
+    return root.innerHTML;
   }
 
   private traverse(element: HTMLElement, declaration: Declaration): void {
@@ -21,17 +19,9 @@ export class Renderer {
 
     elementObs.subscribe(async (el: HTMLElement) => {
       if (el.tagName in declaration) {
-        const componentClass = declaration[el.tagName];
-        const instance = bootstrap(componentClass);
-        const parent = el.parentNode;
+        const { newEl, parent } = await this.buildView(declaration, el);
 
-        // if (!parent) return;
-        instance.data = JSON.parse(el.getAttribute("data") ?? "{}"); //parse data receive from parent component if any
-        instance.index = +el.getAttribute("ng-data-index") ?? -1
-
-        const elViewString = await instance.render();
-        const newEl = parseToHtmlElement(elViewString);
-
+        // if(parent) return
         this.replaceChildren(newEl, el);
         elChildren = parent.children;
       } else {
@@ -44,18 +34,33 @@ export class Renderer {
     });
   }
 
-  private replaceChildren(newElement: HTMLElement, element: HTMLElement) {
+  private async buildView(
+    declaration: Declaration,
+    el: HTMLElement
+  ): Promise<{ newEl: HTMLElement; parent: HTMLElement | null }> {
+    const componentClass = declaration[el.tagName];
+    const instance = bootstrap(componentClass);
+
+    instance.data = JSON.parse(el.getAttribute("data") || "{}");
+    instance.index = parseInt(el.getAttribute("ng-data-index") || "-1");
+
+    const newEl = parseToHtmlElement(await instance.render());
+    const parent = el.parentNode as HTMLElement | null;
+
+    return { newEl, parent };
+  }
+
+  private replaceChildren(newElement: HTMLElement, element: HTMLElement): void {
     const parent = element.parentNode;
 
-    if (parent) {
-      let elementIdx = [...parent.children].indexOf(element);
+    if (!parent) return;
+    let elementIdx = [...parent.children].indexOf(element);
 
-      [...newElement.children].forEach((el: HTMLElement) => {
-        parent.insertBefore(el, parent.children[elementIdx]);
-        elementIdx++;
-      });
+    [...newElement.children].forEach((el: HTMLElement) => {
+      parent.insertBefore(el, parent.children[elementIdx]);
+      elementIdx++;
+    });
 
-      parent.removeChild(element);
-    }
+    parent.removeChild(element);
   }
 }
