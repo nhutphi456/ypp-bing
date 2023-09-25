@@ -20,7 +20,7 @@ export class NgForHandler extends ViewHandler {
 
       if (ngForExpression) {
         const dataProperty = this.getDataProperty(ngForExpression);
-        const val = eval(`instance.${dataProperty}`);
+        const val = this.getNestedPropertyValue(instance, dataProperty);
 
         if (!val || val.length === 0) return child.remove();
         val.forEach((item, index) => {
@@ -37,7 +37,6 @@ export class NgForHandler extends ViewHandler {
       this.bindNgFor(child, instance);
     });
   }
-
   /**
    * @ComponentMetadata({
    *   selector: "parent-component",

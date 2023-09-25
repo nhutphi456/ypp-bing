@@ -4,20 +4,15 @@ import { parseToHtmlElement } from "../utils/parsetoHtmlElement";
 
 export class BindAttributeHandler extends ViewHandler {
   public handle(instance: InstanceType<Component>, view: string): string {
-    const componentHtml = parseToHtmlElement(view);
-    const elements = componentHtml.querySelectorAll("[data]");
+    const dataElements = parseToHtmlElement(view).querySelectorAll("[data]");
 
-    elements.forEach((element) => {
+    dataElements.forEach((element) => {
       const dataAttrValue = element.getAttribute("data");
-      const keys = dataAttrValue.split(".")
+      const value = this.getNestedPropertyValue(instance, dataAttrValue);
       
-      if(keys[0] in instance) {
-        const value = eval(`instance.${dataAttrValue}`)
-        
-        element.setAttribute("data", JSON.stringify(value))
-      }
+      element.setAttribute("data", JSON.stringify(value));
     });
 
-    return super.handle(instance, componentHtml.innerHTML);
+    return super.handle(instance, view);
   }
 }
